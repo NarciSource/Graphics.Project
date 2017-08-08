@@ -259,3 +259,24 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/opengl/glew-2.1.0/doc
+/opengl/glew-2.1.0/doc/wglew.html
+/opengl/glew-2.1.0/doc/travis.png
+/opengl/glew-2.1.0/doc/ogl_sm.jpg
+/opengl/glew-2.1.0/doc/new.png
+/opengl/glew-2.1.0/doc/mesa.txt
+/opengl/glew-2.1.0/doc/log.html
+/opengl/glew-2.1.0/doc/khronos.txt
+/opengl/glew-2.1.0/doc/install.html
+/opengl/glew-2.1.0/doc/index.html
+/opengl/glew-2.1.0/doc/gpl.txt
+/opengl/glew-2.1.0/doc/glxew.html
+/opengl/glew-2.1.0/doc/glew.txt
+/opengl/glew-2.1.0/doc/glew.png
+/opengl/glew-2.1.0/doc/glew.html
+/opengl/glew-2.1.0/doc/glew.css
+/opengl/glew-2.1.0/doc/github.png
+/opengl/glew-2.1.0/doc/credits.html
+/opengl/glew-2.1.0/doc/build.html
+/opengl/glew-2.1.0/doc/basic.html
+/opengl/glew-2.1.0/doc/advanced.html
