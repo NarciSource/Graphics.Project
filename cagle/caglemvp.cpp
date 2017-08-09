@@ -12,7 +12,7 @@ namespace CAGLE {
 	/** Pilot View Coordinate System = PVCS
 	* Use eyePoint, roll, yaw and pitch
 	* to change direction camera is looking at */
-	void ViewMatrix::pilotView(const CAGLM::Vec3 eyePoint, const float roll, const float yaw, const float pitch)
+	void ViewMatrix::pilotView(const CAGLM::Vec3<float> eyePoint, const float roll, const float yaw, const float pitch)
 	{
 		setIdentity();
 		
@@ -32,16 +32,16 @@ namespace CAGLE {
 	* Use eyePoint, focus(at)Point and camera's upVector
 	* to change direction camera is looking at
 	* This system also represent slope at focus */
-	void ViewMatrix::lookAt(const CAGLM::Vec3 eyePoint, const CAGLM::Vec3 atPoint, const CAGLM::Vec3 upVector)
+	void ViewMatrix::lookAt(const CAGLM::Vec3<float> eyePoint, const CAGLM::Vec3<float> atPoint, const CAGLM::Vec3<float> upVector)
 	{	//eye = vrp, up = vup
 
-		CAGLM::Vec3 n =  eyePoint - atPoint;
-		CAGLM::Vec3 u = CAGLM::Vec3::Cross(n, upVector);
-		CAGLM::Vec3 v = CAGLM::Vec3::Cross(u, n);
+		CAGLM::Vec3<float> n =  eyePoint - atPoint;
+		CAGLM::Vec3<float> u = CAGLM::Vec3<float>::Cross(n, upVector);
+		CAGLM::Vec3<float> v = CAGLM::Vec3<float>::Cross(u, n);
 
-		n = CAGLM::Vec3::Normalize(n);
-		u = CAGLM::Vec3::Normalize(u);
-		v = CAGLM::Vec3::Normalize(v);
+		n = CAGLM::Vec3<float>::Normalize(n);
+		u = CAGLM::Vec3<float>::Normalize(u);
+		v = CAGLM::Vec3<float>::Normalize(v);
 
 
 		setIdentity();
@@ -58,9 +58,9 @@ namespace CAGLE {
 		(*this)(2, 1) = n.Y();
 		(*this)(2, 2) = n.Z();
 
-		(*this)(0, 3) = -CAGLM::Vec3::Dot(eyePoint, u);
-		(*this)(1, 3) = -CAGLM::Vec3::Dot(eyePoint, v);
-		(*this)(2, 3) = -CAGLM::Vec3::Dot(eyePoint, n);
+		(*this)(0, 3) = -CAGLM::Vec3<float>::Dot(eyePoint, u);
+		(*this)(1, 3) = -CAGLM::Vec3<float>::Dot(eyePoint, v);
+		(*this)(2, 3) = -CAGLM::Vec3<float>::Dot(eyePoint, n);
 	}
 
 

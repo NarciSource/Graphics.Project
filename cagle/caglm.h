@@ -37,27 +37,28 @@ namespace CAGLM {
 	* It can be read and write from outside.
 	*******************************************/
 	
+	template<typename T> //Vec3 is used as direction vector(float) with a triple container(int).
 	class Vec3 {
 	public:
-		float x, y, z;
+		T x, y, z;
 
 	public:
 		Vec3() {}
-		Vec3(const float x, const float y, const float z) : x(x), y(y), z(z) {}
+		Vec3(const T x, const T y, const T z) : x(x), y(y), z(z) {}
 
 		
 
-		const float length() const								{ return sqrt(x*x + y*y + z*z); }
+		const T length() const								{ return sqrt(x*x + y*y + z*z); }
 
 		/** Arithmetic operator */
-		Vec3 operator-() const									{ return Vec3(-x, -y, -z); }
+		Vec3 operator-() const								{ return Vec3(-x, -y, -z); }
 		Vec3 operator+(const Vec3& v) const					{ return Vec3(x + v.x, y + v.y, z + v.z); }
 		Vec3& operator+=(const Vec3& v)						{ x += v.x; y += v.y; z += v.z; return *this; }
 		Vec3 operator-(const Vec3& v) const					{ return Vec3(x - v.x, y - v.y, z - v.z); }
 		Vec3& operator-=(const Vec3& v)						{ x -= v.x; y -= v.y; z -= v.z; return *this; }
-		Vec3 operator*(const float num) const					{ return Vec3(x*num, y*num, z*num); }
+		Vec3 operator*(const T num) const					{ return Vec3(x*num, y*num, z*num); }
 		Vec3& operator*=(const Vec3& v)						{ x *= v.x; y *= v.y; z *= v.z; return *this; }
-		Vec3 operator/(const float num) const		 
+		Vec3 operator/(const T num) const		 
 		{
 			if (num == 0) throw - 1;
 			else return Vec3(x / num, y / num, z / num);
@@ -72,17 +73,17 @@ namespace CAGLM {
 
 		/** Vector operator */
 		static Vec3 Normalize(const Vec3 v)					{ return Vec3(v.x / v.length(), v.y / v.length(), v.z / v.length()); }
-		static float Dot(const Vec3& v1, const Vec3& v2)		{ return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z; }
+		static T Dot(const Vec3& v1, const Vec3& v2)		{ return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z; }
 		static Vec3 Cross(const Vec3& v1, const Vec3& v2)		{ return Vec3(v1.y*v2.z - v1.z*v2.y, v1.z*v2.x - v1.x*v2.z, v1.x*v2.y - v1.y*v2.x); }
-		static float Angle(const Vec3& v1, const Vec3& v2)		{ return acosf(Dot(v1, v2) / (v1.length()*v2.length())); }
+		static T Angle(const Vec3& v1, const Vec3& v2)		{ return acosf(Dot(v1, v2) / (v1.length()*v2.length())); }
 
 		/** Set */
-		void operator()(const float argx, const float argy, const float argz) { x = argx; y = argy; z = argz; }
+		void operator()(const T argx, const T argy, const T argz) { x = argx; y = argy; z = argz; }
 
 		/** GET and SET */
-		AUTO_GETSET(float, X, x);
-		AUTO_GETSET(float, Y, y);
-		AUTO_GETSET(float, Z, z);
+		AUTO_GETSET(T, X, x);
+		AUTO_GETSET(T, Y, y);
+		AUTO_GETSET(T, Z, z);
 	};
 	/*******************************************
 	******* 4dim Matrix ************************
@@ -130,10 +131,10 @@ namespace CAGLM {
 		Mat4& scalef(const float x, const float y, const float z);
 
 		Mat4& translatef(const float x, const float y, const float z);
-		Mat4& translatev(const CAGLM::Vec3 vec);
+		Mat4& translatev(const Vec3<float> vec);
 
 		Mat4& rotatef(const float angle, const float x, const float y, const float z);
-		Mat4& rotatev(const float angle, const Vec3 v);
+		Mat4& rotatev(const float angle, const Vec3<float> v);
 
 		Mat4& reflection(const bool x, const bool y, const bool z);
 

@@ -96,7 +96,7 @@ namespace CAGLM {
 
 
 
-	Mat4& Mat4::translatev(const CAGLM::Vec3 vec)
+	Mat4& Mat4::translatev(const CAGLM::Vec3<float> vec)
 	{
 		Mat4 tmpMat;
 		tmpMat.element[12] = vec.X();
@@ -139,7 +139,7 @@ namespace CAGLM {
 
 
 
-	Mat4& Mat4::rotatev(const float angle, const Vec3 v)
+	Mat4& Mat4::rotatev(const float angle, const Vec3<float> v)
 	{
 		return rotatef(angle, v.X(), v.X(), v.Y());
 	}

@@ -18,6 +18,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <utility>
 
 #include "cagle.h"
 
@@ -39,7 +40,7 @@ namespace CAGLE {
 		Object* iWannaObject(void);
 
 
-		Object* iWannaObject(const std::string internName);
+		Object* iWannaObject(const std::string internName, const int num = 1);
 
 
 		/** Call */
@@ -113,7 +114,7 @@ namespace CAGLE {
 		* It do not draw to world.
 		* Programmer hire object to base intern object
 		*/
-		std::vector<Object*> internObjects;
+		std::vector<std::pair<Object*,int>> internObjects;
 
 
 		std::vector<Object*> objects;

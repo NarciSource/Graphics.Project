@@ -3,7 +3,6 @@
 
 bool flagRoverRemoteControl = false;
 bool flagTimeFast = false;
-int numofarrows = 0;
 float sensitivity = 1.f;
 float sensitivityFrame = 30;
 
@@ -13,11 +12,12 @@ void idle(int value)
 {
 
 	/** Arrow action */
-	for (int i = 0; i<numofarrows; i++)
+	for (auto obj1: manager.getAllobjects())
 	{
+		if (obj1->herNameIs().find("arrow", 0, 5) == std::string::npos) continue;
+		std::string name = obj1->herNameIs();
+		std::cout << name;
 		bool flagCollison=false;
-		std::string name ="arrow" + std::to_string(i);
-		if (manager.getObject(name) == NULL) continue;;
 
 		/* If arrow is too far from the camera, erase it out. */
 		if ((manager.getObject(name)->Position() - manager.getCamera()->Position()).length() >100) {
@@ -50,8 +50,22 @@ void idle(int value)
 	{
 		std::string name = "tiger" + std::to_string(numoftigers);
 
-		if (manager.getObject(name) == NULL) continue;
+		if (manager.getObject(name) == nullptr) continue;
 
+		if (name == "tiger0")
+		{
+			manager.getObject(name)->forward(sensitivity*1.f);
+			manager.getObject(name)->around(sensitivity*1.f);
+		}
+		if (name == "tiger1")
+		{
+			manager.getObject(name)->forward(sensitivity*0.2f);
+		}
+		if (name == "tiger3")
+		{
+			manager.getObject(name)->forward(sensitivity*5.f);
+			manager.getObject(name)->around(-sensitivity*2.f);
+		}
 		for (auto obj : manager.getAllobjects())
 		{
 			if (obj->herNameIs().find("arrow", 0, 5) != std::string::npos)
@@ -69,21 +83,6 @@ void idle(int value)
 					manager.fireObject(name);
 					break;
 				}
-			}
-
-			if (name == "tiger0")
-			{
-				manager.getObject(name)->forward(sensitivity*0.1f);
-				manager.getObject(name)->around(sensitivity*0.1f);
-			}
-			if (name == "tiger1")
-			{
-				manager.getObject(name)->forward(sensitivity*0.02f);
-			}
-			if (name == "tiger3")
-			{
-				manager.getObject(name)->forward(sensitivity*0.5f);
-				manager.getObject(name)->around(-sensitivity*0.2f);
 			}
 		}
 	}
@@ -244,12 +243,12 @@ void specialKeyboardHandler(const int key, const int x, const int y)
 	{
 	case GLUT_KEY_UP:
 		manager.getLight()->Position(
-			manager.getLight()->Position() + CAGLM::Vec3(0, 0, -sensitivity*10)
+			manager.getLight()->Position() + CAGLM::Vec3<float>(0, 0, -sensitivity*10)
 		);
 		break;
 	case GLUT_KEY_DOWN:
 		manager.getLight()->Position(
-			manager.getLight()->Position() + CAGLM::Vec3(0, 0, sensitivity*10)
+			manager.getLight()->Position() + CAGLM::Vec3<float>(0, 0, sensitivity*10)
 		);
 		break;
 	case GLUT_KEY_PAGE_UP:
@@ -287,21 +286,16 @@ void changeSize(int width, int height)
 /**** Dynamic creation of arrows ****/
 void mkarrow()
 {
-	std::string name = "arrow" + std::to_string(numofarrows);
-
-	manager.iWannaObject("internArrow")->herNameIs(name);
+	auto arrow = manager.iWannaObject("arrow");
 	/* Set of Arrow
 	* to position and direction of Bow */
-	manager.getObject(name)->Position(
-		manager.getCamera()->getWeaponObject()->Position() + CAGLM::Vec3(0, -2, -5)
+	arrow->Position(
+		manager.getCamera()->getWeaponObject()->Position() + CAGLM::Vec3<float>(0, -2, -5)
 	);
-	manager.getObject(name)->Yaw(
+	arrow->Yaw(
 		manager.getCamera()->getWeaponObject()->Yaw()
 	);
-	manager.getObject(name)->Size(5);
-
-
-	numofarrows++;
+	arrow->Size(5);
 
 	manager.refresh();
 }

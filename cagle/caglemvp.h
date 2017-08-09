@@ -34,7 +34,7 @@ namespace CAGLE {
 		/** Pilot View Coordinate System = PVCS 
 		* Use eyePoint, roll, yaw and pitch
 		* to change direction camera is looking at */
-		void pilotView(const CAGLM::Vec3 eyePoint, const float roll, const float yaw, const float pitch);
+		void pilotView(const CAGLM::Vec3<float> eyePoint, const float roll, const float yaw, const float pitch);
 
 
 
@@ -44,7 +44,7 @@ namespace CAGLE {
 		* Use eyePoint, focus(at)Point and camera's upVector
 		* to change direction camera is looking at 
 		* This system also represent slope at focus */
-		void lookAt(const CAGLM::Vec3 eyePoint, const CAGLM::Vec3 atPoint, const CAGLM::Vec3 upVector);
+		void lookAt(const CAGLM::Vec3<float> eyePoint, const CAGLM::Vec3<float> atPoint, const CAGLM::Vec3<float> upVector);
 	};
 
 

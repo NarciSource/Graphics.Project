@@ -13,7 +13,7 @@ namespace CAGLE {
 	{
 		Object* newObject;
 		newObject = new Object;
-		internObjects.push_back(newObject);
+		internObjects.push_back(std::make_pair(newObject,0));
 		return newObject;
 	}
 
@@ -29,23 +29,34 @@ namespace CAGLE {
 
 
 
-	Object* Management::iWannaObject(const std::string internName)
+	Object* Management::iWannaObject(const std::string internName, const int num)
 	{
-		std::vector<Object*>::iterator itor;
-		itor = std::find_if(internObjects.begin(), internObjects.end(),
-			[&](Object* object)-> bool {
-			return (object->hisNameIs() == internName);
+		auto itor = std::find_if(internObjects.begin(), internObjects.end(),
+			[&](std::pair<Object*,int> object)-> bool {
+			return (object.first->hisNameIs() == internName);
 		});
 		if (itor == internObjects.end()) {
 			std::cout << "Don't find this object" << std::endl;
-			return NULL;
+			return nullptr;
 		}
 
-		Object* newObject;
-		newObject = new Object(**itor);
+		Object* internObject = itor->first;
+		int& existingInternNum = itor->second;
 
-		objects.push_back(newObject);
-		return newObject;
+		for (int i = 0; i < num; i++)
+		{
+			Object* newObject;
+			newObject = new Object(*internObject);
+			newObject->herNameIs(internName + std::to_string(existingInternNum++));
+
+			objects.push_back(newObject);
+		}
+		if (num == 1) {
+			return objects.back();
+		}
+		else {
+			return nullptr;
+		}
 	}
 
 	
@@ -65,7 +76,7 @@ namespace CAGLE {
 			return (object->hisNameIs() == name);
 		});
 		if (itor == objects.end()) { //nofind
-			return NULL;
+			return nullptr;
 		}
 		return *itor;
 	}
@@ -75,13 +86,12 @@ namespace CAGLE {
 
 	Object* Management::getInternObject(const std::string name)
 	{
-		std::vector<Object*>::iterator itor;
-		itor = std::find_if(internObjects.begin(), internObjects.end(),
-			[&](Object* object)-> bool {
-			return (object->hisNameIs() == name);
+		auto itor = std::find_if(internObjects.begin(), internObjects.end(),
+			[&](std::pair<Object*,int> object)-> bool {
+			return (object.first->hisNameIs() == name);
 		});
 		if (itor == internObjects.end()) throw;
-		return *itor;
+		return itor->first;
 	}
 
 
@@ -102,14 +112,13 @@ namespace CAGLE {
 
 	void Management::fireInternObject(const std::string name)
 	{
-		std::vector<Object*>::iterator itor;
-		itor = std::find_if(internObjects.begin(), internObjects.end(),
-			[&](Object* object)-> bool {
-			return (object->hisNameIs() == name);
+		auto itor = std::find_if(internObjects.begin(), internObjects.end(),
+			[&](std::pair<Object*,int> object)-> bool {
+			return (object.first->hisNameIs() == name);
 		});
 		if (itor == internObjects.end()) throw;
 
-		delete *itor;
+		delete itor->first;
 		internObjects.erase(itor);
 	}
 

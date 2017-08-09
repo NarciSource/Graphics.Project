@@ -85,7 +85,7 @@ namespace CAGLE {
 		
 
 		/** World Coordinate */
-		CAGLM::Vec3 position;
+		CAGLM::Vec3<float> position;
 		float size;
 		float yaw;
 	
@@ -114,7 +114,7 @@ namespace CAGLE {
 		/** Get and Set */
 		AUTO_GETSET(std::string, hisNameIs, lable);
 		AUTO_GETSET(std::string, herNameIs, lable);
-		AUTO_GETSET(CAGLM::Vec3, Position, position);
+		AUTO_GETSET(CAGLM::Vec3<float>, Position, position);
 		AUTO_GETSET2(float, X, position);
 		AUTO_GETSET2(float, Y, position);
 		AUTO_GETSET2(float, Z, position);
@@ -173,9 +173,9 @@ namespace CAGLE {
 		/** System ***/
 	private:
 		/** Camera Coordinate */
-		CAGLM::Vec3 position;
-		CAGLM::Vec3 lookAt;
-		CAGLM::Vec3 cameraUp;
+		CAGLM::Vec3<float> position;
+		CAGLM::Vec3<float> lookAt;
+		CAGLM::Vec3<float> cameraUp;
 		float size;
 		float roll, yaw, pitch;
 		float fovy, aspect;
@@ -211,8 +211,8 @@ namespace CAGLE {
 
 		/** Get and Set */
 		/* If you using this, then you must have shutter */
-		AUTO_GETSET(CAGLM::Vec3, Position, position);
-		AUTO_GETSET(CAGLM::Vec3, LookAt, lookAt);
+		AUTO_GETSET(CAGLM::Vec3<float>, Position, position);
+		AUTO_GETSET(CAGLM::Vec3<float>, LookAt, lookAt);
 		AUTO_GETSET2(float, X, position);
 		AUTO_GETSET2(float, Y, position); 
 		AUTO_GETSET2(float, Z, position);
@@ -260,7 +260,7 @@ namespace CAGLE {
 
 
 	private:
-		CAGLM::Vec3 position;
+		CAGLM::Vec3<float> position;
 
 		/** The substance of the light */
 		Object source;
@@ -276,7 +276,7 @@ namespace CAGLE {
 		/** Get and Set */
 		Object* getObject();
 		
-		AUTO_GETSET(CAGLM::Vec3, Position, position);
+		AUTO_GETSET(CAGLM::Vec3<float>, Position, position);
 		AUTO_GETSET(float, Pitch, pitch);
 		AUTO_GETSET2(float, X, position);
 		AUTO_GETSET2(float, Y, position);

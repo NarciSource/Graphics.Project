@@ -10,7 +10,7 @@
 #include "cagle.h"
 
 namespace CAGLE {
-	Object::Object() :polygoncolor(0xFFFFFF), position(CAGLM::Vec3(0, 0, 0)), size(1), yaw(0) {}
+	Object::Object() :polygoncolor(0xFFFFFF), position(CAGLM::Vec3<float>(0, 0, 0)), size(1), yaw(0) {}
 
 
 
@@ -19,7 +19,7 @@ namespace CAGLE {
 	{
 		float radian = yaw * M_PI / 180.f;
 
-		CAGLM::Vec3 direct(sin(radian), 0, cos(radian));
+		CAGLM::Vec3<float> direct(sin(radian), 0, cos(radian));
 
 		position += direct*velocity;
 		refresh();
@@ -80,9 +80,9 @@ namespace CAGLE {
 			std::clog << "file open: " << filename << std::endl;
 		}
 
-		std::vector<CAGLM::Vec3> localVertices;
-		std::vector<CAGLM::Vec3> localNormals;
-		std::vector<CAGLM::Vec3> localIndices;
+		std::vector<CAGLM::Vec3<float>> localVertices;
+		std::vector<CAGLM::Vec3<float>> localNormals;
+		std::vector<CAGLM::Vec3<int>> localIndices;
 
 		std::string token;
 		int vertexcount;
@@ -90,22 +90,22 @@ namespace CAGLE {
 
 		fin >> token >> token >> vertexcount;
 
-		localVertices.assign(vertexcount, CAGLM::Vec3(0,0,0));
+		localVertices.assign(vertexcount, CAGLM::Vec3<float>(0,0,0));
 		for (int i = 0; i < vertexcount; i++)
 		{
 			float x, y, z;
 			fin >> x >> y >> z;
-			localVertices[i] = CAGLM::Vec3(x/100, y/100, z/100); // size of magic number <-want to modification
+			localVertices[i] = CAGLM::Vec3<float>(x/100, y/100, z/100); // size of magic number <-want to modification
 		}
 
 		fin >> token >> token >> this->polygoncount;
 
-		localIndices.assign(polygoncount, CAGLM::Vec3(0, 0, 0));
+		localIndices.assign(polygoncount, CAGLM::Vec3<int>(0, 0, 0));
 		for (int i = 0; i < polygoncount; i++)
 		{
-			float x, y, z;
+			int x, y, z;
 			fin >> x >> y >> z;
-			localIndices[i] = CAGLM::Vec3(x, y, z);
+			localIndices[i] = CAGLM::Vec3<int>(x, y, z);
 		}
 
 
@@ -117,43 +117,43 @@ namespace CAGLE {
 		* The normal vector of each vertex is calculated
 		* by weighting the angle of the surrounding plane.
 		*****************************************************/
-		localNormals.assign(vertexcount, CAGLM::Vec3(0, 0, 0));
+		localNormals.assign(vertexcount, CAGLM::Vec3<float>(0, 0, 0));
 		for (int i = 0; i < polygoncount; i++)
 		{
-			CAGLM::Vec3 p1, p2, p3;
-			CAGLM::Vec3 v1, v2, normalv;
+			CAGLM::Vec3<float> p1, p2, p3;
+			CAGLM::Vec3<float> v1, v2, normalv;
 			float angle;
 
 
 			/** Three points on which to calcurate normal vector */
-			p1 = localVertices[static_cast<int>(localIndices[i].X())];
-			p2 = localVertices[static_cast<int>(localIndices[i].Y())];
-			p3 = localVertices[static_cast<int>(localIndices[i].Z())];
+			p1 = localVertices[localIndices[i].X()];
+			p2 = localVertices[localIndices[i].Y()];
+			p3 = localVertices[localIndices[i].Z()];
 				
 
 				
 			/** Normal Vector of first point 
 			* This multiplies theta by weight.	*/
 			v1 = p2 - p1;	v2 = p3 - p1;
-				normalv = CAGLM::Vec3::Cross(v1, v2);
-				angle = CAGLM::Vec3::Angle(v1, v2);
-			localNormals[static_cast<int>(localIndices[i].X())] += normalv * angle;
+				normalv = CAGLM::Vec3<float>::Cross(v1, v2);
+				angle = CAGLM::Vec3<float>::Angle(v1, v2);
+			localNormals[localIndices[i].X()] += normalv * angle;
 
 			/* Second point */
 			v1 = p3 - p2;	v2 = p1 - p2;
-				normalv = CAGLM::Vec3::Cross(v1, v2);
-				angle = CAGLM::Vec3::Angle(v1, v2);
-			localNormals[static_cast<int>(localIndices[i].Y())] += normalv * angle;
+				normalv = CAGLM::Vec3<float>::Cross(v1, v2);
+				angle = CAGLM::Vec3<float>::Angle(v1, v2);
+			localNormals[localIndices[i].Y()] += normalv * angle;
 
 			/* Third point */
 			v1 = p1 - p3;	v2 = p2 - p3;
-				normalv = CAGLM::Vec3::Cross(v1, v2);
-				angle = CAGLM::Vec3::Angle(v1, v2);
-			localNormals[static_cast<int>(localIndices[i].Z())] += normalv * angle;
+				normalv = CAGLM::Vec3<float>::Cross(v1, v2);
+				angle = CAGLM::Vec3<float>::Angle(v1, v2);
+			localNormals[localIndices[i].Z()] += normalv * angle;
 		}
 		for (auto &localNormal : localNormals)
 		{
-			localNormal = CAGLM::Vec3::Normalize(localNormal);
+			localNormal = CAGLM::Vec3<float>::Normalize(localNormal);
 		}
 
 
@@ -164,30 +164,30 @@ namespace CAGLE {
 		normaldata = new float[polygoncount * 3 * 3];
 		for (int i = 0; i < this->polygoncount; i++)
 		{
-			vertexdata[i*9 + 0] = localVertices[static_cast<int>(localIndices[i].X())].X();
-			vertexdata[i*9 + 1] = localVertices[static_cast<int>(localIndices[i].X())].Y();
-			vertexdata[i*9 + 2] = localVertices[static_cast<int>(localIndices[i].X())].Z();
+			vertexdata[i*9 + 0] = localVertices[localIndices[i].X()].X();
+			vertexdata[i*9 + 1] = localVertices[localIndices[i].X()].Y();
+			vertexdata[i*9 + 2] = localVertices[localIndices[i].X()].Z();
 
-			vertexdata[i*9 + 3] = localVertices[static_cast<int>(localIndices[i].Y())].X();
-			vertexdata[i*9 + 4] = localVertices[static_cast<int>(localIndices[i].Y())].Y();
-			vertexdata[i*9 + 5] = localVertices[static_cast<int>(localIndices[i].Y())].Z();
+			vertexdata[i*9 + 3] = localVertices[localIndices[i].Y()].X();
+			vertexdata[i*9 + 4] = localVertices[localIndices[i].Y()].Y();
+			vertexdata[i*9 + 5] = localVertices[localIndices[i].Y()].Z();
 
-			vertexdata[i*9 + 6] = localVertices[static_cast<int>(localIndices[i].Z())].X();
-			vertexdata[i*9 + 7] = localVertices[static_cast<int>(localIndices[i].Z())].Y();
-			vertexdata[i*9 + 8] = localVertices[static_cast<int>(localIndices[i].Z())].Z();
+			vertexdata[i*9 + 6] = localVertices[localIndices[i].Z()].X();
+			vertexdata[i*9 + 7] = localVertices[localIndices[i].Z()].Y();
+			vertexdata[i*9 + 8] = localVertices[localIndices[i].Z()].Z();
 
 
-			normaldata[i*9 + 0] = localNormals[static_cast<int>(localIndices[i].X())].X();
-			normaldata[i*9 + 1] = localNormals[static_cast<int>(localIndices[i].X())].Y();
-			normaldata[i*9 + 2] = localNormals[static_cast<int>(localIndices[i].X())].Z();
+			normaldata[i*9 + 0] = localNormals[localIndices[i].X()].X();
+			normaldata[i*9 + 1] = localNormals[localIndices[i].X()].Y();
+			normaldata[i*9 + 2] = localNormals[localIndices[i].X()].Z();
 
-			normaldata[i*9 + 3] = localNormals[static_cast<int>(localIndices[i].Y())].X();
-			normaldata[i*9 + 4] = localNormals[static_cast<int>(localIndices[i].Y())].Y();
-			normaldata[i*9 + 5] = localNormals[static_cast<int>(localIndices[i].Y())].Z();
+			normaldata[i*9 + 3] = localNormals[localIndices[i].Y()].X();
+			normaldata[i*9 + 4] = localNormals[localIndices[i].Y()].Y();
+			normaldata[i*9 + 5] = localNormals[localIndices[i].Y()].Z();
 
-			normaldata[i*9 + 6] = localNormals[static_cast<int>(localIndices[i].Z())].X();
-			normaldata[i*9 + 7] = localNormals[static_cast<int>(localIndices[i].Z())].Y();
-			normaldata[i*9 + 8] = localNormals[static_cast<int>(localIndices[i].Z())].Z();
+			normaldata[i*9 + 6] = localNormals[localIndices[i].Z()].X();
+			normaldata[i*9 + 7] = localNormals[localIndices[i].Z()].Y();
+			normaldata[i*9 + 8] = localNormals[localIndices[i].Z()].Z();
 		}
 	}
 
@@ -209,9 +209,9 @@ namespace CAGLE {
 			std::clog << "file open: " << filename << std::endl;
 		}
 
-		std::vector<CAGLM::Vec3> localVertices;
-		std::vector<CAGLM::Vec3> localUvs;
-		std::vector<CAGLM::Vec3> localNormals;
+		std::vector<CAGLM::Vec3<float>> localVertices;
+		std::vector<CAGLM::Vec3<float>> localUvs;
+		std::vector<CAGLM::Vec3<float>> localNormals;
 		std::vector<unsigned int> localVertexIndices;
 		std::vector<unsigned int> localUvIndices;
 		std::vector<unsigned int> localNormalIndices;
@@ -229,7 +229,7 @@ namespace CAGLE {
 			std::regex_search(line, m, vPattern);
 			if (m[0].matched)
 			{
-				localVertices.push_back(CAGLM::Vec3(std::stof(m[1]), std::stof(m[2]), std::stof(m[3])));
+				localVertices.push_back(CAGLM::Vec3<float>(std::stof(m[1]), std::stof(m[2]), std::stof(m[3])));
 				continue;
 			}
 
@@ -237,16 +237,16 @@ namespace CAGLE {
 			if (m[0].matched)
 			{
 				if(m[3].matched)
-					localUvs.push_back(CAGLM::Vec3(std::stof(m[1]), std::stof(m[2]), std::stof(m[3])));
+					localUvs.push_back(CAGLM::Vec3<float>(std::stof(m[1]), std::stof(m[2]), std::stof(m[3])));
 				else
-					localUvs.push_back(CAGLM::Vec3(std::stof(m[1]), std::stof(m[2]), 0.f));
+					localUvs.push_back(CAGLM::Vec3<float>(std::stof(m[1]), std::stof(m[2]), 0.f));
 				continue;
 			}
 
 			std::regex_search(line, m, vnPattern);
 			if (m[0].matched)
 			{
-				localNormals.push_back(CAGLM::Vec3(std::stof(m[1]), std::stof(m[2]), std::stof(m[3])));
+				localNormals.push_back(CAGLM::Vec3<float>(std::stof(m[1]), std::stof(m[2]), std::stof(m[3])));
 				continue;
 			}
 
@@ -307,7 +307,7 @@ namespace CAGLE {
 
 
 
-	Camera::Camera() : size(1), cameraUp(CAGLM::Vec3(0,1,0)),
+	Camera::Camera() : size(1), cameraUp(CAGLM::Vec3<float>(0,1,0)),
 						roll(0), yaw(0), pitch(0), fovy(1),
 						aspect(2.0), neear(0.1f), faar(100.f),
 						projectionType(PROJECTION_PERSPECTIVE), flushMap(false)
@@ -332,9 +332,9 @@ namespace CAGLE {
 
 	void Camera::move(const int direct, const float velocity)
 	{
-		CAGLM::Vec3 v = lookAt - position;	v.Y(0);
-		v = CAGLM::Vec3::Normalize(v);
-		CAGLM::Vec3 n = CAGLM::Vec3::Cross(v, CAGLM::Vec3(0, 1, 0));
+		CAGLM::Vec3<float> v = lookAt - position;	v.Y(0);
+		v = CAGLM::Vec3<float>::Normalize(v);
+		CAGLM::Vec3<float> n = CAGLM::Vec3<float>::Cross(v, CAGLM::Vec3<float>(0, 1, 0));
 		switch (direct)
 		{
 		case CAGLE_FORWARD:
@@ -397,7 +397,7 @@ namespace CAGLE {
 			break;
 		}
 
-		yaw = CAGLM::Vec3::Angle(lookAt - position, CAGLM::Vec3(0, 0, 1));
+		yaw = CAGLM::Vec3<float>::Angle(lookAt - position, CAGLM::Vec3<float>(0, 0, 1));
 		if ((lookAt - position).X() < 0) yaw *= -1;
 		yaw *= 180 / M_PI;
 		
@@ -443,7 +443,7 @@ namespace CAGLE {
 		{
 
 		case PROJECTION_MAPVIEW:
-			viewMatrix.lookAt(CAGLM::Vec3(0, 50, 0), CAGLM::Vec3(0, 0, 0), CAGLM::Vec3(0, 0, 1));
+			viewMatrix.lookAt(CAGLM::Vec3<float>(0, 50, 0), CAGLM::Vec3<float>(0, 0, 0), CAGLM::Vec3<float>(0, 0, 1));
 			viewMatrix.scalef(0.005f, 0.005f, 0.005f);
 			projectionMatrix.parallel(left, right, bottom, top, neear, faar);
 			break;
@@ -478,11 +478,11 @@ namespace CAGLE {
 		/** Adjust the value of the weapon
 		* so that the camera's body(chacter) can move
 		* along camera's center point.*/
-		weapon.Position(position + CAGLM::Vec3::Normalize(position - lookAt) * 5);
+		weapon.Position(position + CAGLM::Vec3<float>::Normalize(position - lookAt) * 5);
 		weapon.Yaw(yaw);
 		weapon.refresh();
 
-		character.Position(position + CAGLM::Vec3::Normalize(position - lookAt) * 10 + CAGLM::Vec3(0,-30,0));
+		character.Position(position + CAGLM::Vec3<float>::Normalize(position - lookAt) * 10 + CAGLM::Vec3<float>(0,-30,0));
 		character.Yaw(yaw);
 		character.refresh();
 
@@ -506,7 +506,7 @@ namespace CAGLE {
 	Light::Light():pitch(0)
 	{
 		source.herNameIs("star");
-		source.Position(CAGLM::Vec3(0,0,20));
+		source.Position(CAGLM::Vec3<float>(0,0,20));
 		source.Size(0.01f);
 		source.Color(0xFF0000);
 	}
@@ -519,7 +519,7 @@ namespace CAGLE {
 	{
 		float radian = pitch * M_PI / 180;
 
-		CAGLM::Vec3 direct(0, -sin(radian), cos(radian));
+		CAGLM::Vec3<float> direct(0, -sin(radian), cos(radian));
 
 		position += direct;
 		refresh();
