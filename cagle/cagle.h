@@ -2,12 +2,12 @@
 /** @CAGLE										**/
 /**   ==Chung Ang university GL Engine			**/
 /**												**/
-/** @Version : v1.6								**/
+/** @Version : v1.7								**/
 /** @Author : Jeong Won Cheol					**/
 /** @Contact : jwch11@gmail.com					**/
 /**												**/
 /** @Create : 20th May 2017						**/
-/** @Last Modified: 4th June 2017				**/
+/** @Last Modified: 9th August 2017				**/
 /**												**/
 /**	@Class : Object, Camera and Light			**/
 /*************************************************/
@@ -15,8 +15,6 @@
 
 
 #pragma once
-#pragma warning(disable:4996)
-
 #include <string>
 
 #include "caglm.h"
@@ -38,8 +36,8 @@
 #define AUTO_GETSET2(TYPE2, FUNC_NAME2, PROP2) \
 		TYPE2 FUNC_NAME2() const \
 		{ return PROP2.FUNC_NAME2(); } \
-		void FUNC_NAME2(const TYPE2 _PROP2) \
-		{ PROP2.FUNC_NAME2(_PROP2);}
+		void FUNC_NAME2(const TYPE2 ARG2) \
+		{ PROP2.FUNC_NAME2(ARG2);}
 
 
 
@@ -62,9 +60,9 @@ namespace CAGLE {
 
 	public:
 		/** Moving operator Funciton*/
-		void forward(const float _velocity);
+		void forward(const float velocity);
 
-		void around(const float _velocity);
+		void around(const float velocity);
 
 
 
@@ -104,11 +102,10 @@ namespace CAGLE {
 
 
 		/** Parsing function*/
-		void dataLoad2(const std::string _filename);
-		void dataLoad(const std::string _filename);
-		void dataLoad3(const std::string _filename);
+		void dataLoad2(const std::string filename);
+		void dataLoad(const std::string filename);
 
-		void positionRotation(float _turnRadius, float _velocity, float _x, float _y, float _z);
+		void positionRotation(float turnRadius, float velocity, float x, float y, float z);
 
 
 
@@ -152,18 +149,18 @@ namespace CAGLE {
 	class Camera {
 	public:
 
-		void move(const int _direct, const float _velocity);
+		void move(const int direct, const float velocity);
 
 
 		/** Programable Function */
 
-		void lookAround(const int _direct, const float _velocity);
+		void lookAround(const int direct, const float velocity);
 
-		void fovyUp(const float _value);
+		void fovyUp(const float value);
 
-		void fovyDown(const float _value);
+		void fovyDown(const float value);
 
-		void projectionSwitch(const int _type);
+		void projectionSwitch(const int type);
 
 
 		/** ViewMatrix and ProjectinoMatrix refersh */
@@ -255,7 +252,7 @@ namespace CAGLE {
 
 	public:
 
-		void sunset(const float _velocity);
+		void sunset(const float velocity);
 
 
 		void refresh();

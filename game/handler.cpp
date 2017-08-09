@@ -9,14 +9,14 @@ float sensitivityFrame = 30;
 
 void mkarrow();
 /**** no action, runtime ****/
-void idle(int _value)
+void idle(int value)
 {
 
 	/** Arrow action */
 	for (int i = 0; i<numofarrows; i++)
 	{
 		bool flagCollison=false;
-		std::string name = (std::string)("arrow") + (char)(i + '0');
+		std::string name ="arrow" + std::to_string(i);
 		if (manager.getObject(name) == NULL) continue;;
 
 		/* If arrow is too far from the camera, erase it out. */
@@ -48,7 +48,7 @@ void idle(int _value)
 	/** Tiger action **/
 	for (int numoftigers = 0; numoftigers < 5; numoftigers++)
 	{
-		std::string name = (std::string)("tiger") + (char)(numoftigers + '0');
+		std::string name = "tiger" + std::to_string(numoftigers);
 
 		if (manager.getObject(name) == NULL) continue;
 
@@ -270,11 +270,11 @@ void specialKeyboardHandler(const int key, const int x, const int y)
 	manager.getLight()->refresh();
 }
 /**** Handler: Extend screen size ****/
-void changeSize(int _width, int _height)
+void changeSize(int width, int height)
 {
-	glViewport(0, 0, _width, _height);
+	glViewport(0, 0, width, height);
 
-	manager.getCamera()->Aspect(1.0f*_width / _height);
+	manager.getCamera()->Aspect(1.0f*width / height);
 }
 
 
@@ -287,7 +287,7 @@ void changeSize(int _width, int _height)
 /**** Dynamic creation of arrows ****/
 void mkarrow()
 {
-	std::string name = (std::string)("arrow") + (char)(numofarrows + '0');
+	std::string name = "arrow" + std::to_string(numofarrows);
 
 	manager.iWannaObject("internArrow")->herNameIs(name);
 	/* Set of Arrow

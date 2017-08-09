@@ -39,27 +39,27 @@ namespace CAGLE {
 		Object* iWannaObject(void);
 
 
-		Object* iWannaObject(const std::string _internName);
+		Object* iWannaObject(const std::string internName);
 
 
 		/** Call */
-		Object* getObject(const std::string _name);
+		Object* getObject(const std::string name);
 
 
-		Object* getInternObject(const std::string _name);
+		Object* getInternObject(const std::string name);
 
 
 		/** Fire */
-		void fireObject(const std::string _name);
+		void fireObject(const std::string name);
 
-		void fireInternObject(const std::string _name);
+		void fireInternObject(const std::string name);
 
 
 
 
 		/** Collision Test **/
-		bool isCollision(const std::string _name1, const std::string _name2);
-		bool isCollision(const std::string _name1, const std::string _name2, const int _pivot);
+		bool isCollision(const std::string name1, const std::string name2);
+		bool isCollision(const std::string name1, const std::string name2, const int pivot);
 
 
 		/** Call All */

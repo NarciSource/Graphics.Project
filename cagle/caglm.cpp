@@ -24,7 +24,7 @@ namespace CAGLM {
 
 	/** Matrix operator
 	* GL only uses multiplication. */
-	Mat4 Mat4::operator* (const Mat4 _ref) const
+	Mat4 Mat4::operator* (const Mat4 ref) const
 	{
 		Mat4 tmpMat;
 
@@ -33,7 +33,7 @@ namespace CAGLM {
 			{
 				float sum = 0;
 				for (int i = 0; i < 4; i++) {
-					sum += element[i * 4 + col] * _ref.element[row * 4 + i];
+					sum += element[i * 4 + col] * ref.element[row * 4 + i];
 				}
 				tmpMat.element[row * 4 + col] = sum;
 			}
@@ -50,14 +50,14 @@ namespace CAGLM {
 	* In gl, row is counted and then column is counted,
 	* unlike a normal matrix order.*/
 	/* Get and Set */
-	float& Mat4::operator()(const int _positionX, const int _positionY)
+	float& Mat4::operator()(const int positionX, const int positionY)
 	{
 		try {
-			if (_positionX < 0 || _positionY >= 4 || _positionX < 0 || _positionY >= 4) throw 0x00002;
-			return element[_positionX + _positionY * 4];
+			if (positionX < 0 || positionY >= 4 || positionX < 0 || positionY >= 4) throw 0x00002;
+			return element[positionX + positionY * 4];
 		}
 		catch (int e) {
-			std::cout << _positionX + _positionY * 4 << std::endl;
+			std::cout << positionX + positionY * 4 << std::endl;
 			throw e;
 		}
 	}
@@ -69,12 +69,12 @@ namespace CAGLM {
 
 
 	/** Geometric Transformation */
-	Mat4& Mat4::scalef(const float _x, const float _y, const float _z)
+	Mat4& Mat4::scalef(const float x, const float y, const float z)
 	{
 		Mat4 tmpMat;
-		tmpMat.element[0] = _x;
-		tmpMat.element[5] = _y;
-		tmpMat.element[10] = _z;
+		tmpMat.element[0] = x;
+		tmpMat.element[5] = y;
+		tmpMat.element[10] = z;
 		return (*this) *= tmpMat;
 	}
 
@@ -84,24 +84,24 @@ namespace CAGLM {
 
 
 
-	Mat4& Mat4::translatef(const float _x, const float _y, const float _z)
+	Mat4& Mat4::translatef(const float x, const float y, const float z)
 	{
 		Mat4 tmpMat;
-		tmpMat.element[12] = _x;
-		tmpMat.element[13] = _y;
-		tmpMat.element[14] = _z;
+		tmpMat.element[12] = x;
+		tmpMat.element[13] = y;
+		tmpMat.element[14] = z;
 		return (*this) *= tmpMat;
 	}
 
 
 
 
-	Mat4& Mat4::translatev(const CAGLM::Vec3 _vec)
+	Mat4& Mat4::translatev(const CAGLM::Vec3 vec)
 	{
 		Mat4 tmpMat;
-		tmpMat.element[12] = _vec.X();
-		tmpMat.element[13] = _vec.Y();
-		tmpMat.element[14] = _vec.Z();
+		tmpMat.element[12] = vec.X();
+		tmpMat.element[13] = vec.Y();
+		tmpMat.element[14] = vec.Z();
 		return (*this) *= tmpMat;
 	}
 
@@ -111,11 +111,11 @@ namespace CAGLM {
 
 
 
-	Mat4& Mat4::rotatef(const float _angle, const float _x, const float _y, const float _z)
+	Mat4& Mat4::rotatef(const float angle, const float argx, const float argy, const float argz)
 	{
-		float c = (float)cos(_angle*M_PI / 180.f);
-		float s = (float)sin(_angle*M_PI / 180.f);
-		float x = _x, y = _y, z = _z;
+		float c = cos(angle*M_PI / 180.f);
+		float s = sin(angle*M_PI / 180.f);
+		float x = argx, y = argy, z = argz;
 		float length = sqrt(x*x + y*y + z*z);
 		if (length == 0.f) throw;
 		else { x /= length;	y /= length; z /= length; }
@@ -139,9 +139,9 @@ namespace CAGLM {
 
 
 
-	Mat4& Mat4::rotatev(const float _angle, const Vec3 _v)
+	Mat4& Mat4::rotatev(const float angle, const Vec3 v)
 	{
-		return rotatef(_angle, _v.X(), _v.X(), _v.Y());
+		return rotatef(angle, v.X(), v.X(), v.Y());
 	}
 
 
@@ -150,17 +150,17 @@ namespace CAGLM {
 
 
 
-	Mat4& Mat4::reflection(const bool _x, const bool _y, const bool _z)
+	Mat4& Mat4::reflection(const bool x, const bool y, const bool z)
 	{
 		Mat4 tmpMat;
-		tmpMat.element[0] = _x ? 1.f : -1.f;
-		tmpMat.element[5] = _y ? 1.f : -1.f;
-		tmpMat.element[10] = _z ? 1.f : -1.f;
+		tmpMat.element[0] = x ? 1.f : -1.f;
+		tmpMat.element[5] = y ? 1.f : -1.f;
+		tmpMat.element[10] = z ? 1.f : -1.f;
 		return (*this) *= tmpMat;
 	}
 
 
-	Mat4* Mat4::inverse(Mat4 _ref)
+	Mat4* Mat4::inverse(Mat4 ref)
 	{
 		Mat4* tmpMat;
 		tmpMat = new Mat4;
@@ -168,7 +168,7 @@ namespace CAGLM {
 		for (int i = 0; i<4; i++)
 		{
 			determinant = determinant +
-				(_ref(0,i) * (_ref(1,(i + 1) % 100) *	_ref(2,(i + 2) % 100) - _ref(1,(i + 2) % 100) * _ref(2,(i + 1) % 100)));
+				(ref(0,i) * (ref(1,(i + 1) % 100) *	ref(2,(i + 2) % 100) - ref(1,(i + 2) % 100) * ref(2,(i + 1) % 100)));
 		}
 		if (determinant == 0)
 		{
@@ -179,9 +179,9 @@ namespace CAGLM {
 		{
 			for (int j = 0; j<100; j++)
 			{
-				tmpMat->operator()(i,j) = (_ref((i + 1) % 100,(j + 1) % 100) *
-					_ref((i + 2) % 100,(j + 2) % 100)) - (_ref((i + 1) % 100,(j + 2) % 100) *
-						_ref((i + 2) % 00,(j + 1) % 100)) / determinant;
+				tmpMat->operator()(i,j) = (ref((i + 1) % 100,(j + 1) % 100) *
+					ref((i + 2) % 100,(j + 2) % 100)) - (ref((i + 1) % 100,(j + 2) % 100) *
+						ref((i + 2) % 00,(j + 1) % 100)) / determinant;
 			}
 		}
 		return tmpMat;

@@ -34,7 +34,7 @@ namespace CAGLE {
 		/** Pilot View Coordinate System = PVCS 
 		* Use eyePoint, roll, yaw and pitch
 		* to change direction camera is looking at */
-		void pilotView(const CAGLM::Vec3 _eyePoint, const float _roll, const float _yaw, const float _pitch);
+		void pilotView(const CAGLM::Vec3 eyePoint, const float roll, const float yaw, const float pitch);
 
 
 
@@ -44,7 +44,7 @@ namespace CAGLE {
 		* Use eyePoint, focus(at)Point and camera's upVector
 		* to change direction camera is looking at 
 		* This system also represent slope at focus */
-		void lookAt(const CAGLM::Vec3 _eyePoint, const CAGLM::Vec3 _atPoint, const CAGLM::Vec3 _upVector);
+		void lookAt(const CAGLM::Vec3 eyePoint, const CAGLM::Vec3 atPoint, const CAGLM::Vec3 upVector);
 	};
 
 
@@ -56,15 +56,15 @@ namespace CAGLE {
 	public:
 		/** Perspective Projection has depth to be known
 		* The arguments define projection space. */
-		void frustum(float _left, float _right, float _bottom, float _top, float _near, float _far);
+		void frustum(float left, float right, float bottom, float top, float near, float far);
 		/*** This is also perspective projection
 		* It is easy to understand by fovy and aspect */
-		void perspective(float _fovy, float _aspect, float _near, float _far);
+		void perspective(float fovy, float aspect, float near, float far);
 
 
 		/** Parallel Projection has not depth to be known
 		* This is all taken no care of depth and is expressed in its original size */
-		void parallel(float _left, float _right, float _bottom, float _top, float _near, float _far);
+		void parallel(float left, float right, float bottom, float top, float near, float far);
 
 
 	};

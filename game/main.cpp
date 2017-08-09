@@ -12,13 +12,12 @@ int shadingType= typePhong;
 
 
 
-void mkObject(std::string _name, int _num)
+void mkObject(std::string itemName, int num)
 {
 	std::string name;
-	if(_num>=10) name = _name + (char)(_num / 10 + '0') + (char)(_num%10 + '0');
-	else name = _name + (char)(_num + '0');
+	name = itemName + std::to_string(num);
 
-	manager.iWannaObject("intern_" + _name)->herNameIs(name);
+	manager.iWannaObject("intern_" + itemName)->herNameIs(name);
 }
 void main(int argc, char* argv[]) {
 
@@ -70,7 +69,7 @@ void main(int argc, char* argv[]) {
 
 
 	manager.iWannaInternObject()->hisNameIs("intern_tiger");
-	manager.getInternObject("intern_tiger")->dataLoad3("data\\tigre_sumatra_sketchfab.obj");
+	manager.getInternObject("intern_tiger")->dataLoad("data\\tigre_sumatra_sketchfab.obj");
 	manager.getInternObject("intern_tiger")->Size(30);
 	for (int i = 0; i < 5; i++) mkObject("tiger", i);
 

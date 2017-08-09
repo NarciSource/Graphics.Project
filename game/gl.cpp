@@ -18,7 +18,7 @@ void myGLInit()
 	glEnable(GL_DEPTH_TEST);
 	int glewtest = glewInit();
 	if (glewtest != GLEW_OK) {
-		std::cout<<"glew error"<<std::endl;
+		std::cerr<<"glew error"<<std::endl;
 	}
 
 	ProgramID = shader::LoadShaders("shader\\VertexShader.vert", "shader\\FragmentShader.frag");
@@ -77,16 +77,16 @@ void myGLInit()
 	glEnable(GL_FOG);                   // 안개 사용
 	*/
 }
-void renderObject(CAGLE::Object *_object)
+void renderObject(CAGLE::Object *object)
 {
 
 	/** Model Matrix */
-	glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, _object->loadModelMatrix());
+	glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, object->loadModelMatrix());
 
 	/** Color */
-	glUniform4f(colorID, 1.f* (_object->Color() / 0x10000) / 0xFF,
-		1.f* (_object->Color() / 0x100 % 0x100) / 0xFF,
-		1.f* (_object->Color() % 0x100) / 0xFF,
+	glUniform4f(colorID, 1.f* (object->Color() / 0x10000) / 0xFF,
+		1.f* (object->Color() / 0x100 % 0x100) / 0xFF,
+		1.f* (object->Color() % 0x100) / 0xFF,
 		0.0f
 	);
 
@@ -98,7 +98,7 @@ void renderObject(CAGLE::Object *_object)
 		GL_FLOAT,// type
 		GL_FALSE,// normalized?
 		sizeof(GLfloat) * 3,// stride
-		_object->loadVertexPosition()// array buffer offset
+		object->loadVertexPosition()// array buffer offset
 	);
 
 
@@ -109,14 +109,14 @@ void renderObject(CAGLE::Object *_object)
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(GLfloat) * 3,
-		_object->loadNormal()
+		object->loadNormal()
 	);
 
 
 
 
 	/** Draw call */
-	glDrawArrays(GL_TRIANGLES, 0, _object->loadPolygonCount() * 3);
+	glDrawArrays(GL_TRIANGLES, 0, object->loadPolygonCount() * 3);
 }
 
 void render()
