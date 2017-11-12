@@ -5,7 +5,6 @@
 
 #include <iostream>
 
-#include "cagle.h"
 #include "caglemannager.h"
 
 namespace CAGLE {
@@ -166,6 +165,17 @@ namespace CAGLE {
 	{
 		return onlyCamera;
 	}
+
+	Character* Management::iWannaCharacter(void)
+	{
+		player1 = new Character;
+		return player1;
+	}
+	Character* Management::getCharacter(void)
+	{
+		return player1;
+	}
+
 
 
 

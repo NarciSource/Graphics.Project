@@ -5,7 +5,7 @@
 /*************************************************/
 
 #include <iostream>
-#include "components\mvp.h"
+#include "mvp.h"
 
 namespace CAGLE {
 
@@ -15,7 +15,7 @@ namespace CAGLE {
 	void ViewMatrix::pilotView(const CAGLM::Vec3<float> eyePoint, const float roll, const float yaw, const float pitch)
 	{
 		setIdentity();
-		
+
 		rotatef(-roll, 0, 0, 1);
 		rotatef(-yaw, 0, 1, 0);
 		rotatef(-pitch, 1, 0, 0);
@@ -35,7 +35,7 @@ namespace CAGLE {
 	void ViewMatrix::lookAt(const CAGLM::Vec3<float> eyePoint, const CAGLM::Vec3<float> atPoint, const CAGLM::Vec3<float> upVector)
 	{	//eye = vrp, up = vup
 
-		CAGLM::Vec3<float> n =  eyePoint - atPoint;
+		CAGLM::Vec3<float> n = eyePoint - atPoint;
 		CAGLM::Vec3<float> u = CAGLM::Vec3<float>::Cross(n, upVector);
 		CAGLM::Vec3<float> v = CAGLM::Vec3<float>::Cross(u, n);
 
@@ -73,7 +73,7 @@ namespace CAGLE {
 	void ProjectionMatrix::frustum(float left, float right, float bottom, float top, float near, float far)
 	{
 		setIdentity();
-		
+
 		(*this)(0, 0) = -(2 * near) / (right - left);
 		(*this)(0, 2) = -(right + left) / (right - left);
 		(*this)(1, 1) = -(2 * near) / (top - bottom);
@@ -82,7 +82,7 @@ namespace CAGLE {
 		(*this)(3, 2) = -1;
 		(*this)(2, 3) = -2 * (far*near) / (far - near);
 		(*this)(3, 3) = 0;
-		
+
 	}
 
 

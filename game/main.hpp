@@ -9,7 +9,6 @@
 #include "glut.h"
 
 #include "shader.hpp"
-#include "cagle.h"
 #include "caglemannager.h"
 
 #define typeGouraud 0x01

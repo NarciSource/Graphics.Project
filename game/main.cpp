@@ -33,10 +33,17 @@ void main(int argc, char* argv[]) {
 		
 	
 	/** make Camera */
-	manager.iWannaCamera();
-	manager.getCamera()->getWeaponObject()->dataLoad("data\\BOW.obj");
-	manager.getCamera()->getCharacterObject()->dataLoad("data\\CV Catwoman.obj");
-	manager.getCamera()->Aspect(windowSizeX / windowSizeY);
+///	manager.iWannaCamera();
+//	manager.getCamera()->getWeaponObject()->dataLoad("data\\BOW.obj");
+//	manager.getCamera()->getCharacterObject()->dataLoad("data\\CV Catwoman.obj");
+//	manager.getCamera()->Aspect(windowSizeX / windowSizeY);
+
+
+	manager.iWannaCharacter();
+	manager.getCharacter()->getWeaponObject()->dataLoad("data\\BOW.obj");
+	manager.getCharacter()->getCharacterObject()->dataLoad("data\\CV Catwoman.obj");
+	manager.getCharacter()->getEye()->Aspect(windowSizeX / windowSizeY);
+
 
 
 	/** make object */
@@ -106,10 +113,15 @@ void setInitPosition()
 	manager.getLight()->getObject()->Color(0xFFFF00);
 	manager.getLight()->getObject()->Size(0.1f);
 
-	manager.getCamera()->Position(CAGLM::Vec3<float>(0, 20, 100));
-	manager.getCamera()->LookAt(CAGLM::Vec3<float>(0, 50, 0));
-	manager.getCamera()->Far(500.f);
-	manager.getCamera()->getCharacterObject()->Size(0.2f);
+//	manager.getCamera()->Position(CAGLM::Vec3<float>(0, 20, 100));
+//	manager.getCamera()->LookAt(CAGLM::Vec3<float>(0, 50, 0));
+//	manager.getCamera()->Far(500.f);
+//	manager.getCamera()->getCharacterObject()->Size(0.2f);
+
+	manager.getCharacter()->Position(CAGLM::Vec3<float>(0, 20, 100));
+	manager.getCharacter()->LookAt(CAGLM::Vec3<float>(0, 50, 0));
+	manager.getCharacter()->getEye()->Far(500.f);
+	manager.getCharacter()->getCharacterObject()->Size(0.2f);
 	
 
 
@@ -163,9 +175,9 @@ void printF(int progress)
 	case printCamera:
 		std::cout << std::fixed;
 		std::cout.precision(1);
-		std::cout << "\r#Camera tracing: X=" << manager.getCamera()->X() << " Y=" << manager.getCamera()->Y() << " Z=" << manager.getCamera()->Z()
-			<< " roll=" << manager.getCamera()->Roll() << " yaw=" << manager.getCamera()->Yaw() << " pitch=" << manager.getCamera()->Pitch()
-			<< " fov=" << manager.getCamera()->Fovy()<<" aspect=" << manager.getCamera()->Aspect();
+//		std::cout << "\r#Camera tracing: X=" << manager.getCamera()->X() << " Y=" << manager.getCamera()->Y() << " Z=" << manager.getCamera()->Z()
+//			<< " roll=" << manager.getCamera()->Roll() << " yaw=" << manager.getCamera()->Yaw() << " pitch=" << manager.getCamera()->Pitch()
+//			<< " fov=" << manager.getCamera()->Fovy()<<" aspect=" << manager.getCamera()->Aspect();
 		break;
 	case printLight:
 		std::cout << std::fixed;

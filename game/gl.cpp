@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "main.hpp"
-#include "cagle.h"
+#include "caglemannager.h"
 
 
 CAGLE::Management manager;

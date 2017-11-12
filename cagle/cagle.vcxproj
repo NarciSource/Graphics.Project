@@ -116,16 +116,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cagle.cpp" />
-    <ClCompile Include="caglemannager.cpp" />
-    <ClCompile Include="caglemvp.cpp" />
-    <ClCompile Include="caglm.cpp" />
+    <ClCompile Include="caglemannager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="caglm.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="components\camera.cpp" />
+    <ClCompile Include="components\character.cpp" />
+    <ClCompile Include="components\light.cpp" />
+    <ClCompile Include="components\modelData.cpp" />
+    <ClCompile Include="components\mvp.cpp" />
+    <ClCompile Include="components\object.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cagle.h" />
-    <ClInclude Include="caglemannager.h" />
-    <ClInclude Include="caglemvp.h" />
-    <ClInclude Include="caglm.h" />
+    <ClInclude Include="caglemannager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="caglm.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="components\camera.h" />
+    <ClInclude Include="components\character.h" />
+    <ClInclude Include="components\light.h" />
+    <ClInclude Include="components\modelData.h" />
+    <ClInclude Include="components\mvp.h" />
+    <ClInclude Include="components\object.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

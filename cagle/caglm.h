@@ -43,8 +43,8 @@ namespace CAGLM {
 		T x, y, z;
 
 	public:
-		Vec3() {}
-		Vec3(const T x, const T y, const T z) : x(x), y(y), z(z) {}
+		explicit Vec3() {}
+		explicit Vec3(const T x, const T y, const T z) : x(x), y(y), z(z) {}
 
 		
 
@@ -72,10 +72,10 @@ namespace CAGLM {
 
 
 		/** Vector operator */
-		static Vec3 Normalize(const Vec3 v)					{ return Vec3(v.x / v.length(), v.y / v.length(), v.z / v.length()); }
-		static T Dot(const Vec3& v1, const Vec3& v2)		{ return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z; }
+		static Vec3 Normalize(const Vec3 v)						{ return Vec3(v.x / v.length(), v.y / v.length(), v.z / v.length()); }
+		static T Dot(const Vec3& v1, const Vec3& v2)			{ return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z; }
 		static Vec3 Cross(const Vec3& v1, const Vec3& v2)		{ return Vec3(v1.y*v2.z - v1.z*v2.y, v1.z*v2.x - v1.x*v2.z, v1.x*v2.y - v1.y*v2.x); }
-		static T Angle(const Vec3& v1, const Vec3& v2)		{ return acosf(Dot(v1, v2) / (v1.length()*v2.length())); }
+		static T Angle(const Vec3& v1, const Vec3& v2)			{ return acosf(Dot(v1, v2) / (v1.length()*v2.length())); }
 
 		/** Set */
 		void operator()(const T argx, const T argy, const T argz) { x = argx; y = argy; z = argz; }
@@ -95,7 +95,7 @@ namespace CAGLM {
 		float element[4 * 4];
 
 	public:
-		Mat4()													{ setIdentity(); }
+		explicit Mat4()												{ setIdentity(); }
 
 		void setIdentity(void);
 

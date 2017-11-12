@@ -273,7 +273,7 @@ void changeSize(int width, int height)
 {
 	glViewport(0, 0, width, height);
 
-	manager.getCamera()->Aspect(1.0f*width / height);
+	manager.getCharacter()->getEye()->Aspect(1.0f*width / height);
 }
 
 
@@ -290,7 +290,7 @@ void mkarrow()
 	/* Set of Arrow
 	* to position and direction of Bow */
 	arrow->Position(
-		manager.getCamera()->getWeaponObject()->Position() + CAGLM::Vec3<float>(0, -2, -5)
+		manager.getCharacter()->Position() + CAGLM::Vec3<float>(0, -2, -5)
 	);
 	arrow->Yaw(
 		manager.getCamera()->getWeaponObject()->Yaw()

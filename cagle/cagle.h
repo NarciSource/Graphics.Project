@@ -92,7 +92,7 @@ namespace CAGLE {
 		ModelMatrix modelMatrix;
 
 	public:
-		Object();
+		explicit Object();
 		
 
 
@@ -202,7 +202,7 @@ namespace CAGLE {
 
 
 	public:
-		Camera();
+		explicit Camera();
 
 		
 
@@ -269,7 +269,7 @@ namespace CAGLE {
 
 
 	public:
-		Light();
+		explicit Light();
 		
 		
 		

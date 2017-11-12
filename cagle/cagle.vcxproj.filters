@@ -13,33 +13,63 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="헤더 파일\components">
+      <UniqueIdentifier>{17a821a8-f265-4744-90a4-4f245499991f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\components">
+      <UniqueIdentifier>{e6848bf7-f9f0-470a-90c5-c3867956620f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cagle.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="caglemannager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="caglemvp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="caglm.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="components\modelData.cpp">
+      <Filter>소스 파일\components</Filter>
+    </ClCompile>
+    <ClCompile Include="components\object.cpp">
+      <Filter>소스 파일\components</Filter>
+    </ClCompile>
+    <ClCompile Include="components\camera.cpp">
+      <Filter>소스 파일\components</Filter>
+    </ClCompile>
+    <ClCompile Include="components\light.cpp">
+      <Filter>소스 파일\components</Filter>
+    </ClCompile>
+    <ClCompile Include="components\mvp.cpp">
+      <Filter>소스 파일\components</Filter>
+    </ClCompile>
+    <ClCompile Include="components\character.cpp">
+      <Filter>소스 파일\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cagle.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="caglemvp.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="caglemannager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="caglm.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="components\mvp.h">
+      <Filter>헤더 파일\components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\object.h">
+      <Filter>헤더 파일\components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\modelData.h">
+      <Filter>헤더 파일\components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\camera.h">
+      <Filter>헤더 파일\components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\light.h">
+      <Filter>헤더 파일\components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\character.h">
+      <Filter>헤더 파일\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

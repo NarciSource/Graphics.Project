@@ -20,7 +20,11 @@
 #include <algorithm>
 #include <utility>
 
-#include "cagle.h"
+
+#include "components\object.h"
+#include "components\camera.h"
+#include "components\light.h"
+#include "components\character.h"
 
 namespace CAGLE {
 	/** forward Declaration */
@@ -75,12 +79,15 @@ namespace CAGLE {
 
 		/***************** Camera manage *******************************************************/
 		/** Hire */
-		Camera* iWannaCamera(void);
+//		Camera* iWannaCamera(void);
 
 
 		/** Call */
-		Camera* getCamera(void);
+//		Camera* getCamera(void);
 		/***************************************************************************************/
+
+		Character* iWannaCharacter(void);
+		Character* getCharacter(void);
 
 
 
@@ -121,6 +128,7 @@ namespace CAGLE {
 
 
 		Camera* onlyCamera;
+		Character* player1;
 
 		Light* onlyLight;
 	};
