@@ -4,13 +4,10 @@
 
 #include "main.hpp"
 
-
-
-
 GLint windowSizeX = 2048, windowSizeY = 1024;
 int shadingType= typePhong;
 
-
+CAGLE::Management m = CAGLE::Management::get_instance();
 
 void main(int argc, char* argv[]) {
 
@@ -26,55 +23,43 @@ void main(int argc, char* argv[]) {
 
 
 
-
 	/** make Light */
-	manager.iWannaLight();
-	manager.getLight()->getObject()->dataLoad("data\\star.obj");
+	m.iWannaLight();
+	m.getLight()->getObject()->dataLoad("data\\star.obj");
 		
 	
 	/** make Camera */
-	manager.iWannaCamera();
-	manager.getCamera()->getWeaponObject()->dataLoad("data\\BOW.obj");
-	manager.getCamera()->getCharacterObject()->dataLoad("data\\CV Catwoman.obj");
-	manager.getCamera()->Aspect(windowSizeX / windowSizeY);
+	m.iWannaCamera();
+	m.getCamera()->getWeaponObject()->dataLoad("data\\BOW.obj");
+	m.getCamera()->getCharacterObject()->dataLoad("data\\CV Catwoman.obj");
+	m.getCamera()->Aspect(windowSizeX / windowSizeY);
 
 
 	/** make object */
-	manager.iWannaObject()->herNameIs("rover");
-	manager.getObject("rover")->dataLoad("data\\Mars Rock Collecter.obj");
+	m.newObject("rover");
+	m.getObject("rover")->dataLoad("data\\Mars Rock Collecter.obj");
 
-	manager.iWannaObject()->hisNameIs("teapot");
-	manager.getObject("teapot")->dataLoad2("data\\teapot.dat");
+	m.newObject("teapot");
+	m.getObject("teapot")->dataLoad2("data\\teapot.dat");
 
-	manager.iWannaObject()->herNameIs("bottom");
-	manager.getObject("bottom")->dataLoad2("data\\board.dat");
-	
+	m.newObject("bottom");
+	m.getObject("bottom")->dataLoad2("data\\board.dat");
 
-	manager.iWannaInternObject()->hisNameIs("tree");
-	manager.getInternObject("tree")->dataLoad("data\\PineTree.obj");
-	manager.getInternObject("tree")->Size(50);
-	manager.iWannaObject("tree", 15);
+	m.newObject("tree");
+	m.getObject("tree")->dataLoad("data\\PineTree.obj");
+	m.getObject("tree")->Size(50);
+	m.copyObject("tree", "tree", 15);
 
+	m.newObject("arrow");
+	m.getObject("arrow")->dataLoad("data\\Arrow.obj");
 
-	manager.iWannaInternObject()->herNameIs("arrow");
-	manager.getInternObject("arrow")->dataLoad("data\\Arrow.obj");
-
-
-
-	manager.iWannaInternObject()->hisNameIs("tiger");
-	manager.getInternObject("tiger")->dataLoad("data\\tigre_sumatra_sketchfab.obj");
-	manager.getInternObject("tiger")->Size(30);
-	manager.iWannaObject("tiger", 5);
-
+	m.newObject("tiger");
+	m.getObject("tiger")->dataLoad("data\\tigre_sumatra_sketchfab.obj");
+	m.getObject("tiger")->Size(30);
+	m.copyObject("tiger", "tiger", 5);
 
 	/** set there's position */
 	setInitPosition();
-
-
-
-
-
-
 
 
 	/** Render => gl.cpp **/
@@ -102,57 +87,57 @@ void main(int argc, char* argv[]) {
 void setInitPosition()
 {
 
-	manager.getLight()->Position(CAGLM::Vec3<float>(40, 200, -50));
-	manager.getLight()->getObject()->Color(0xFFFF00);
-	manager.getLight()->getObject()->Size(0.1f);
+	m.getLight()->Position(CAGLM::Vec3<float>(40, 200, -50));
+	m.getLight()->getObject()->Color(0xFFFF00);
+	m.getLight()->getObject()->Size(0.1f);
 
-	manager.getCamera()->Position(CAGLM::Vec3<float>(0, 20, 100));
-	manager.getCamera()->LookAt(CAGLM::Vec3<float>(0, 50, 0));
-	manager.getCamera()->Far(500.f);
-	manager.getCamera()->getCharacterObject()->Size(0.2f);
+	m.getCamera()->Position(CAGLM::Vec3<float>(0, 20, 100));
+	m.getCamera()->LookAt(CAGLM::Vec3<float>(0, 50, 0));
+	m.getCamera()->Far(500.f);
+	m.getCamera()->getCharacterObject()->Size(0.2f);
 	
 
 
-	manager.getObject("rover")->Position(CAGLM::Vec3<float>(-30, 0, 130));
-	manager.getObject("rover")->Size(5);
+	m.getObject("rover")->Position(CAGLM::Vec3<float>(-30, 0, 130));
+	m.getObject("rover")->Size(5);
 
 
-	manager.getObject("teapot")->Position(CAGLM::Vec3<float>(-10, 0, -50));
-	manager.getObject("teapot")->Size(5);
+	m.getObject("teapot")->Position(CAGLM::Vec3<float>(-10, 0, -50));
+	m.getObject("teapot")->Size(5);
 
 
-	manager.getObject("tree0")->Position(CAGLM::Vec3<float>(10, 0, 10));
-	manager.getObject("tree1")->Position(CAGLM::Vec3<float>(5, 0, -10));
-	manager.getObject("tree2")->Position(CAGLM::Vec3<float>(-15, 0, 5));
-	manager.getObject("tree3")->Position(CAGLM::Vec3<float>(20, 0, 10));
-	manager.getObject("tree4")->Position(CAGLM::Vec3<float>(50, 0, 50));
-	manager.getObject("tree5")->Position(CAGLM::Vec3<float>(200, 0, 0));
-	manager.getObject("tree6")->Position(CAGLM::Vec3<float>(-80, 0, 10));
-	manager.getObject("tree7")->Position(CAGLM::Vec3<float>(-10, 0, -100));
-	manager.getObject("tree8")->Position(CAGLM::Vec3<float>(90, 0, -70));
-	manager.getObject("tree9")->Position(CAGLM::Vec3<float>(200, 0, -40));
-	manager.getObject("tree10")->Position(CAGLM::Vec3<float>(-170, 0, 30));
-	manager.getObject("tree11")->Position(CAGLM::Vec3<float>(-200, 0, -100));
-	manager.getObject("tree12")->Position(CAGLM::Vec3<float>(-100, 0, 50));
-	manager.getObject("tree13")->Position(CAGLM::Vec3<float>(20, 0, -150));
-	manager.getObject("tree14")->Position(CAGLM::Vec3<float>(-400, 0, -140));
-
-
-
-	manager.getObject("tiger0")->Position(CAGLM::Vec3<float>(30, 10, 100));
-	manager.getObject("tiger1")->Position(CAGLM::Vec3<float>(-100, 10, 0));
-	manager.getObject("tiger2")->Position(CAGLM::Vec3<float>(10, 10, -20));
-	manager.getObject("tiger3")->Position(CAGLM::Vec3<float>(70, 10, -70));
-	manager.getObject("tiger4")->Position(CAGLM::Vec3<float>(0, 0, 0));
+	m.getObject("tree0")->Position(CAGLM::Vec3<float>(10, 0, 10));
+	m.getObject("tree1")->Position(CAGLM::Vec3<float>(5, 0, -10));
+	m.getObject("tree2")->Position(CAGLM::Vec3<float>(-15, 0, 5));
+	m.getObject("tree3")->Position(CAGLM::Vec3<float>(20, 0, 10));
+	m.getObject("tree4")->Position(CAGLM::Vec3<float>(50, 0, 50));
+	m.getObject("tree5")->Position(CAGLM::Vec3<float>(200, 0, 0));
+	m.getObject("tree6")->Position(CAGLM::Vec3<float>(-80, 0, 10));
+	m.getObject("tree7")->Position(CAGLM::Vec3<float>(-10, 0, -100));
+	m.getObject("tree8")->Position(CAGLM::Vec3<float>(90, 0, -70));
+	m.getObject("tree9")->Position(CAGLM::Vec3<float>(200, 0, -40));
+	m.getObject("tree10")->Position(CAGLM::Vec3<float>(-170, 0, 30));
+	m.getObject("tree11")->Position(CAGLM::Vec3<float>(-200, 0, -100));
+	m.getObject("tree12")->Position(CAGLM::Vec3<float>(-100, 0, 50));
+	m.getObject("tree13")->Position(CAGLM::Vec3<float>(20, 0, -150));
+	m.getObject("tree14")->Position(CAGLM::Vec3<float>(-400, 0, -140));
 
 
 
-	manager.getObject("bottom")->Size(500);
-	manager.getObject("bottom")->Position(CAGLM::Vec3<float>(0, 0, 0));
-	manager.getObject("bottom")->Color(0x66CC66);
+	m.getObject("tiger0")->Position(CAGLM::Vec3<float>(30, 10, 100));
+	m.getObject("tiger1")->Position(CAGLM::Vec3<float>(-100, 10, 0));
+	m.getObject("tiger2")->Position(CAGLM::Vec3<float>(10, 10, -20));
+	m.getObject("tiger3")->Position(CAGLM::Vec3<float>(70, 10, -70));
+	m.getObject("tiger4")->Position(CAGLM::Vec3<float>(0, 0, 0));
+
+
+
+	m.getObject("bottom")->Size(500);
+	m.getObject("bottom")->Position(CAGLM::Vec3<float>(0, 0, 0));
+	m.getObject("bottom")->Color(0x66CC66);
 
 	
-	manager.refresh();
+	m.refresh();
 }
 
 /**** print string ****/
@@ -163,19 +148,19 @@ void printF(int progress)
 	case printCamera:
 		std::cout << std::fixed;
 		std::cout.precision(1);
-		std::cout << "\r#Camera tracing: X=" << manager.getCamera()->X() << " Y=" << manager.getCamera()->Y() << " Z=" << manager.getCamera()->Z()
-			<< " roll=" << manager.getCamera()->Roll() << " yaw=" << manager.getCamera()->Yaw() << " pitch=" << manager.getCamera()->Pitch()
-			<< " fov=" << manager.getCamera()->Fovy()<<" aspect=" << manager.getCamera()->Aspect();
+		std::cout << "\r#Camera tracing: X=" << m.getCamera()->X() << " Y=" << m.getCamera()->Y() << " Z=" << m.getCamera()->Z()
+			<< " roll=" << m.getCamera()->Roll() << " yaw=" << m.getCamera()->Yaw() << " pitch=" << m.getCamera()->Pitch()
+			<< " fov=" << m.getCamera()->Fovy()<<" aspect=" << m.getCamera()->Aspect();
 		break;
 	case printLight:
 		std::cout << std::fixed;
 		std::cout.precision(1);
-		std::cout << "\r#Light tracing: Y=" << manager.getLight()->Y() << " Z=" << manager.getLight()->Z() <<"\t\t\t\t\t\t\t\t\t";
+		std::cout << "\r#Light tracing: Y=" << m.getLight()->Y() << " Z=" << m.getLight()->Z() <<"\t\t\t\t\t\t\t\t\t";
 		break;
 	case printRemote:
 		std::cout << std::fixed;
 		std::cout.precision(1);
-		std::cout << "\r#Remote tracing: X=" << manager.getObject("rover")->X() << " Z=" << manager.getObject("rover")->Z() << "\t\t\t\t\t\t\t\t\t";
+		std::cout << "\r#Remote tracing: X=" << m.getObject("rover")->X() << " Z=" << m.getObject("rover")->Z() << "\t\t\t\t\t\t\t\t\t";
 		break;
 	}
 }

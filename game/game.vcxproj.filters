@@ -16,6 +16,9 @@
     <Filter Include="소스 파일\shader">
       <UniqueIdentifier>{25f2ade2-275d-4517-8e34-d2ac21d3452b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\json">
+      <UniqueIdentifier>{6a12ab51-65d9-4225-8c8e-f36bccf260ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gl.cpp">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="shader.hpp">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>소스 파일\json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

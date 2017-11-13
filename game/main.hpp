@@ -9,8 +9,7 @@
 #include "glut.h"
 
 #include "shader.hpp"
-#include "cagle.h"
-#include "caglemannager.h"
+#include "manager.h"
 
 #define typeGouraud 0x01
 #define typePhong 0x02
@@ -20,7 +19,7 @@
 
 
 extern GLint windowSizeX, windowSizeY;
-extern CAGLE::Management manager;
+extern CAGLE::Management m;
 
 extern int shadingType;
 

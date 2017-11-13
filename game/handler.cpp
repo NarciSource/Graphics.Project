@@ -12,26 +12,28 @@ void idle(int value)
 {
 
 	/** Arrow action */
-	for (auto obj1: manager.getAllobjects())
-	{
+	for(auto each: m.get_all_objects())
+	{	
+		auto obj1 = each.second;
 		if (obj1->herNameIs().find("arrow", 0, 5) == std::string::npos) continue;
 		std::string name = obj1->herNameIs();
 		std::cout << name;
 		bool flagCollison=false;
 
 		/* If arrow is too far from the camera, erase it out. */
-		if ((manager.getObject(name)->Position() - manager.getCamera()->Position()).length() >100) {
-			manager.fireObject(name);
+		if ((m.getObject(name)->Position() - m.getCamera()->Position()).length() >100) {
+			m.deleteObject(name);
 			continue;
 		}
 
 
-		for (auto obj : manager.getAllobjects())
+		for(auto each2: m.get_all_objects())
 		{
+			auto obj = each2.second;
 			/* There is no effect between arrows */
 			if (obj->herNameIs().find("arrow", 0, 5) != std::string::npos) continue;
 
-			if (manager.isCollision(name, obj->herNameIs()))
+			if (m.isCollision(name, obj->herNameIs()))
 			{
 				flagCollison = true;
 				break;
@@ -40,7 +42,7 @@ void idle(int value)
 		/* Arrow does not collision anything */
 		if (!flagCollison)
 		{
-			manager.getObject(name)->forward(sensitivity);
+			m.getObject(name)->forward(sensitivity);
 		}		
 	}
 
@@ -50,37 +52,38 @@ void idle(int value)
 	{
 		std::string name = "tiger" + std::to_string(numoftigers);
 
-		if (manager.getObject(name) == nullptr) continue;
+		if (m.getObject(name) == nullptr) continue;
 
 		if (name == "tiger0")
 		{
-			manager.getObject(name)->forward(sensitivity*1.f);
-			manager.getObject(name)->around(sensitivity*1.f);
+			m.getObject(name)->forward(sensitivity*1.f);
+			m.getObject(name)->around(sensitivity*1.f);
 		}
 		if (name == "tiger1")
 		{
-			manager.getObject(name)->forward(sensitivity*0.2f);
+			m.getObject(name)->forward(sensitivity*0.2f);
 		}
 		if (name == "tiger3")
 		{
-			manager.getObject(name)->forward(sensitivity*5.f);
-			manager.getObject(name)->around(-sensitivity*2.f);
+			m.getObject(name)->forward(sensitivity*5.f);
+			m.getObject(name)->around(-sensitivity*2.f);
 		}
-		for (auto obj : manager.getAllobjects())
+		for(auto each: m.get_all_objects())
 		{
+			auto obj = each.second;
 			if (obj->herNameIs().find("arrow", 0, 5) != std::string::npos)
 			{
-				if (manager.isCollision(name, obj->herNameIs(),20))
+				if (m.isCollision(name, obj->herNameIs(),20))
 				{
-					manager.fireObject(name);
+					m.deleteObject(name);
 					break;
 				}
 			}
 			if (obj->hisNameIs() == "rover")
 			{
-				if (manager.isCollision(name, obj->hisNameIs(),40))
+				if (m.isCollision(name, obj->hisNameIs(),40))
 				{
-					manager.fireObject(name);
+					m.deleteObject(name);
 					break;
 				}
 			}
@@ -89,20 +92,20 @@ void idle(int value)
 
 
 	/** Camera jump action effected on gravity */
-	if (manager.getCamera()->Position().Y() > 10) //gravity
+	if (m.getCamera()->Position().Y() > 10) //gravity
 	{
-		manager.getCamera()->move(CAGLE_DOWN, 0.03);
+		m.getCamera()->move(CAGLE_DOWN, 0.03);
 	}
 
 
 	/** Light auto sunset effect */
 	if (flagTimeFast)
 	{
-		manager.getLight()->Pitch(
-			manager.getLight()->Pitch() + sensitivity*0.05f
+		m.getLight()->Pitch(
+			m.getLight()->Pitch() + sensitivity*0.05f
 		);
-		manager.getLight()->sunset(sensitivity);
-		manager.getLight()->refresh();
+		m.getLight()->sunset(sensitivity);
+		m.getLight()->refresh();
 		printF(printLight);
 	}
 
@@ -112,21 +115,21 @@ void idle(int value)
 /**** Handler: MouseClick ****/
 void mouseClickHandler(const int button, const int state, const int x, const int y)
 {
-	static int beforeFovy = manager.getCamera()->Fovy();
+	static int beforeFovy = m.getCamera()->Fovy();
 
 	/* When you hold down right mouse button,
 	* show it at sniper style */
-	if (state == GLUT_DOWN && button == GLUT_RIGHT_BUTTON) manager.getCamera()->Fovy(0.2);
+	if (state == GLUT_DOWN && button == GLUT_RIGHT_BUTTON) m.getCamera()->Fovy(0.2);
 	else {
-		manager.getCamera()->Fovy(beforeFovy);
-		beforeFovy = manager.getCamera()->Fovy();
+		m.getCamera()->Fovy(beforeFovy);
+		beforeFovy = m.getCamera()->Fovy();
 	}
 
 	/* When you click left button,
 	* make an arrow on the spot.*/
 	if (button == GLUT_LEFT_BUTTON) mkarrow();
 
-	manager.getCamera()->shutter();
+	m.getCamera()->shutter();
 }
 /**** Handler: Mouse moving ****/
 void mouseMoveHandler(const int x, const int y)
@@ -134,13 +137,13 @@ void mouseMoveHandler(const int x, const int y)
 	static int beforeX, beforeY;
 
 	if (x - beforeX < 0)
-		manager.getCamera()->lookAround(CAGLE_LEFT, -(x - beforeX)* sensitivity*0.03);
+		m.getCamera()->lookAround(CAGLE_LEFT, -(x - beforeX)* sensitivity*0.03);
 	if (x - beforeX > 0)
-		manager.getCamera()->lookAround(CAGLE_RIGHT, (x - beforeX)* sensitivity*0.03);
+		m.getCamera()->lookAround(CAGLE_RIGHT, (x - beforeX)* sensitivity*0.03);
 	if (y - beforeY < 0)
-		manager.getCamera()->lookAround(CAGLE_UP, -(y - beforeY)* sensitivity *1.5);
+		m.getCamera()->lookAround(CAGLE_UP, -(y - beforeY)* sensitivity *1.5);
 	if (y - beforeY > 0)
-		manager.getCamera()->lookAround(CAGLE_DOWN, (y - beforeY)* sensitivity *1.5);
+		m.getCamera()->lookAround(CAGLE_DOWN, (y - beforeY)* sensitivity *1.5);
 
 	beforeX = x;	beforeY = y;
 	printF(printCamera);
@@ -154,21 +157,21 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 	{
 		/** Character Moving */
 	case 'w':
-		manager.getCamera()->move(CAGLE_FORWARD, sensitivity); break;
+		m.getCamera()->move(CAGLE_FORWARD, sensitivity); break;
 	case 'W':
-		manager.getCamera()->move(CAGLE_FORWARD, sensitivity * 3); break;
+		m.getCamera()->move(CAGLE_FORWARD, sensitivity * 3); break;
 	case 's':
-		manager.getCamera()->move(CAGLE_BACKWARD, sensitivity); break;
+		m.getCamera()->move(CAGLE_BACKWARD, sensitivity); break;
 	case 'S':
-		manager.getCamera()->move(CAGLE_BACKWARD, sensitivity * 3); break;
+		m.getCamera()->move(CAGLE_BACKWARD, sensitivity * 3); break;
 	case 'a':
-		manager.getCamera()->move(CAGLE_LEFT, sensitivity); break;
+		m.getCamera()->move(CAGLE_LEFT, sensitivity); break;
 	case 'A':
-		manager.getCamera()->move(CAGLE_LEFT, sensitivity * 3); break;
+		m.getCamera()->move(CAGLE_LEFT, sensitivity * 3); break;
 	case 'd':
-		manager.getCamera()->move(CAGLE_RIGHT, sensitivity); break;
+		m.getCamera()->move(CAGLE_RIGHT, sensitivity); break;
 	case 'D':
-		manager.getCamera()->move(CAGLE_RIGHT, sensitivity * 3); break;
+		m.getCamera()->move(CAGLE_RIGHT, sensitivity * 3); break;
 
 
 		/** Shader type changing */
@@ -181,45 +184,45 @@ void keyboardHandler(const unsigned char key, const int x, const int y)
 		/** Romote rover object */
 	case '8':
 		flagRoverRemoteControl = true;
-		manager.getObject("rover")->forward(sensitivity*0.4f);
+		m.getObject("rover")->forward(sensitivity*0.4f);
 		printF(printRemote); break;
 	case '2':
 		flagRoverRemoteControl = true;
-		manager.getObject("rover")->forward(-sensitivity*0.4f);
+		m.getObject("rover")->forward(-sensitivity*0.4f);
 		printF(printRemote); break;
 	case '4':
-		manager.getObject("rover")->around(-sensitivity*2.f );
-		manager.getObject("rover")->forward(sensitivity*0.4f);
+		m.getObject("rover")->around(-sensitivity*2.f );
+		m.getObject("rover")->forward(sensitivity*0.4f);
 		printF(printRemote); break;
 	case '6':
-		manager.getObject("rover")->around( sensitivity*2.f);
-		manager.getObject("rover")->forward(sensitivity*0.4f);
+		m.getObject("rover")->around( sensitivity*2.f);
+		m.getObject("rover")->forward(sensitivity*0.4f);
 		printF(printRemote); break;
 
 
 		/** Fovy changing */
 	case ',':
-		manager.getCamera()->fovyDown(10); break;
+		m.getCamera()->fovyDown(10); break;
 	case '.':
-		manager.getCamera()->fovyUp(10); break;
+		m.getCamera()->fovyUp(10); break;
 
 	case 'p':
-		manager.getCamera()->projectionSwitch(PROJECTION_PERSPECTIVE);	break;
+		m.getCamera()->projectionSwitch(PROJECTION_PERSPECTIVE);	break;
 	case 'o':
-		manager.getCamera()->projectionSwitch(PROJECTION_ORTHOGONAL);		break;
+		m.getCamera()->projectionSwitch(PROJECTION_ORTHOGONAL);		break;
 	case 'm':
-		manager.getCamera()->projectionSwitch(PROJECTION_MAPVIEW);		break;
+		m.getCamera()->projectionSwitch(PROJECTION_MAPVIEW);		break;
 
 
 		/** Shid down/up */
 	case 'z':
-		if (flagShit) manager.getCamera()->move(CAGLE_DOWN, sensitivity);
-		else manager.getCamera()->move(CAGLE_UP, sensitivity);
+		if (flagShit) m.getCamera()->move(CAGLE_DOWN, sensitivity);
+		else m.getCamera()->move(CAGLE_UP, sensitivity);
 		flagShit = !flagShit;
 		break;
 		/** Jump */
 	case 32: // space bar = Jump
-		manager.getCamera()->move(CAGLE_UP, sensitivity * 3);
+		m.getCamera()->move(CAGLE_UP, sensitivity * 3);
 		break;
 		
 	case 13:
@@ -242,13 +245,13 @@ void specialKeyboardHandler(const int key, const int x, const int y)
 	switch (key)
 	{
 	case GLUT_KEY_UP:
-		manager.getLight()->Position(
-			manager.getLight()->Position() + CAGLM::Vec3<float>(0, 0, -sensitivity*10)
+		m.getLight()->Position(
+			m.getLight()->Position() + CAGLM::Vec3<float>(0, 0, -sensitivity*10)
 		);
 		break;
 	case GLUT_KEY_DOWN:
-		manager.getLight()->Position(
-			manager.getLight()->Position() + CAGLM::Vec3<float>(0, 0, sensitivity*10)
+		m.getLight()->Position(
+			m.getLight()->Position() + CAGLM::Vec3<float>(0, 0, sensitivity*10)
 		);
 		break;
 	case GLUT_KEY_PAGE_UP:
@@ -266,14 +269,14 @@ void specialKeyboardHandler(const int key, const int x, const int y)
 		sensitivityFrame++;
 		break;
 	}
-	manager.getLight()->refresh();
+	m.getLight()->refresh();
 }
 /**** Handler: Extend screen size ****/
 void changeSize(int width, int height)
 {
 	glViewport(0, 0, width, height);
 
-	manager.getCamera()->Aspect(1.0f*width / height);
+	m.getCamera()->Aspect(1.0f*width / height);
 }
 
 
@@ -286,16 +289,16 @@ void changeSize(int width, int height)
 /**** Dynamic creation of arrows ****/
 void mkarrow()
 {
-	auto arrow = manager.iWannaObject("arrow");
+/*	auto arrow = m.iWannaObject("arrow");
 	/* Set of Arrow
 	* to position and direction of Bow */
-	arrow->Position(
-		manager.getCamera()->getWeaponObject()->Position() + CAGLM::Vec3<float>(0, -2, -5)
+/*	arrow->Position(
+		m.getCamera()->getWeaponObject()->Position() + CAGLM::Vec3<float>(0, -2, -5)
 	);
 	arrow->Yaw(
-		manager.getCamera()->getWeaponObject()->Yaw()
+		m.getCamera()->getWeaponObject()->Yaw()
 	);
 	arrow->Size(5);
-
-	manager.refresh();
+*/
+	m.refresh();
 }

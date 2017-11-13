@@ -17,43 +17,48 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <algorithm>
 #include <utility>
 
-#include "cagle.h"
+#include "object.h"
+#include "camera.h"
+#include "light.h"
+#include "player.h"
 
 namespace CAGLE {
 	/** forward Declaration */
 	class Object;	
 	class Camera;
 	class Light;
+	class Player;
 
 	class Management {
-
+	public:
+		static Management& get_instance()
+		{
+			static Management instance;
+			return instance;
+		}
 		
 	public:
 		/***************** Object manage *******************************************************/
-		/** Hire */
-		Object* iWannaInternObject(void);
 
+		bool newObject(const std::string name);
 
-		Object* iWannaObject(void);
-
-
-		Object* iWannaObject(const std::string internName, const int num = 1);
-
-
-		/** Call */
 		Object* getObject(const std::string name);
 
+		bool copyObject(const std::string dst, const std::string src, const int num=1);
 
-		Object* getInternObject(const std::string name);
+		void deleteObject(const std::string name);
+		/***************************************************************************************/
 
+		
+		/***************** Player manage *******************************************************/
 
-		/** Fire */
-		void fireObject(const std::string name);
+		Player* player;
 
-		void fireInternObject(const std::string name);
+		bool getPlayer();
 
 
 
@@ -64,7 +69,7 @@ namespace CAGLE {
 
 
 		/** Call All */
-		std::vector<Object*> getAllobjects();
+		std::map<std::string, Object*> get_all_objects();
 		/***************************************************************************************/
 
 
@@ -110,15 +115,14 @@ namespace CAGLE {
 
 
 	private:
+		Management() {}
+
 		/** The intern Objects means base object
 		* It do not draw to world.
 		* Programmer hire object to base intern object
 		*/
-		std::vector<std::pair<Object*,int>> internObjects;
 
-
-		std::vector<Object*> objects;
-
+		std::map<std::string, Object*> objects;
 
 		Camera* onlyCamera;
 

@@ -5,10 +5,94 @@
 
 #include <iostream>
 
-#include "cagle.h"
-#include "caglemannager.h"
+#include "manager.h"
 
 namespace CAGLE {
+
+	bool Management::newObject(const std::string name)
+	{
+		auto ret = objects.insert({ name,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Object();
+			return true;
+		}
+		else { // overlap			
+			return false;
+		}
+	}
+
+	Object* Management::getObject(const std::string name)
+	{
+		if (objects.find(name) != objects.end())
+		{
+			return objects[name];
+		}
+		else {
+			return nullptr;
+		}
+	}
+
+	bool Management::copyObject(const std::string dst, const std::string src, const int num)
+	{
+		Object* src_object = getObject(src);
+		if (src_object == nullptr)
+		{
+			std::cout << "Copy error, src isn't exist" << std::endl;
+			return false;
+		}
+
+		for (int i = 0; i < num; i++)
+		{
+			std::string each_name;
+			if (num == 1)
+			{
+				each_name = dst;
+			}
+			else {
+				each_name = dst + std::to_string(i);
+			}
+
+			auto ret = objects.insert({ each_name,nullptr });
+			if (ret.second)
+			{
+				ret.first->second = new Object(*src_object);
+			}
+			else {
+				std::cout << "Copy error, dst is exist" << std::endl;
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	void Management::deleteObject(const std::string name)
+	{
+		auto it = objects.find(name);
+		if (it != objects.end())
+		{
+			delete it->second;
+			objects.erase(it);
+		}
+	}
+
+
+	bool Management::getPlayer()
+	{
+		if (player == nullptr)
+		{
+			player = new Player();
+		}
+
+		return player;
+	}
+
+	
+
+
+/*
+
 	Object* Management::iWannaInternObject(void)
 	{
 		Object* newObject;
@@ -80,7 +164,7 @@ namespace CAGLE {
 		}
 		return *itor;
 	}
-
+/*
 
 
 
@@ -122,7 +206,7 @@ namespace CAGLE {
 		internObjects.erase(itor);
 	}
 
-
+	*/
 
 	bool Management::isCollision(const std::string name1, const std::string name2)
 	{
@@ -144,13 +228,16 @@ namespace CAGLE {
 		else return false;
 	}
 
-
-
-	std::vector<Object*> Management::getAllobjects()
+	std::map<std::string, Object*> Management::get_all_objects()
 	{
 		return objects;
 	}
 
+/*	std::vector<Object*> Management::getAllobjects()
+	{
+		return objects;
+	}
+*/
 
 
 	
@@ -186,10 +273,15 @@ namespace CAGLE {
 
 	void Management::refresh(void)
 	{
+		for (auto const& each : objects)
+		{
+			each.second->refresh();
+		}
+		/*
 		for (auto op : objects)
 		{
 			op->refresh();
-		}
+		}*/
 		onlyCamera->shutter();
 		onlyLight->refresh();
 	

@@ -116,16 +116,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cagle.cpp" />
-    <ClCompile Include="caglemannager.cpp" />
-    <ClCompile Include="caglemvp.cpp" />
+    <ClCompile Include="manager.cpp" />
+    <ClCompile Include="mvp.cpp" />
     <ClCompile Include="caglm.cpp" />
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="light.cpp" />
+    <ClCompile Include="object.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cagle.h" />
-    <ClInclude Include="caglemannager.h" />
-    <ClInclude Include="caglemvp.h" />
+    <ClInclude Include="manager.h" />
+    <ClInclude Include="mvp.h" />
     <ClInclude Include="caglm.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="light.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

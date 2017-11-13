@@ -129,6 +129,7 @@
     <ClCompile Include="shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="json.h" />
     <ClInclude Include="main.hpp" />
     <ClInclude Include="shader.hpp" />
   </ItemGroup>

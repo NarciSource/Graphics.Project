@@ -280,3 +280,4 @@ __pycache__/
 /opengl/glew-2.1.0/doc/build.html
 /opengl/glew-2.1.0/doc/basic.html
 /opengl/glew-2.1.0/doc/advanced.html
+/game/json.h

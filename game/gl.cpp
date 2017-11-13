@@ -1,10 +1,9 @@
 #include <iostream>
 
 #include "main.hpp"
-#include "cagle.h"
 
 
-CAGLE::Management manager;
+
 GLuint ProgramID;
 GLint modelMatrixID, viewMatrixID, projectionMatrixID;
 GLint vertexPositionID,  normalID;
@@ -130,12 +129,12 @@ void render()
 
 	
 	/** View and Projection Matrix */
-	glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, manager.getCamera()->loadViewMatrix());
-	glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, manager.getCamera()->loadProjectionMatrix());
+	glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, m.getCamera()->loadViewMatrix());
+	glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, m.getCamera()->loadProjectionMatrix());
 
 	/** Camera and Light position */
-	glUniform4f(cameraID, manager.getCamera()->X(), manager.getCamera()->Y(), manager.getCamera()->Z(), 0);
-	glUniform4f(lightID, manager.getLight()->X(), manager.getLight()->Y(), manager.getLight()->Z(), 0);
+	glUniform4f(cameraID, m.getCamera()->X(), m.getCamera()->Y(), m.getCamera()->Z(), 0);
+	glUniform4f(lightID, m.getLight()->X(), m.getLight()->Y(), m.getLight()->Z(), 0);
 
 	/** Shading Type, I supported phong and gouroud */
 	glUniform1i(shadingTypeID, shadingType);
@@ -146,17 +145,17 @@ void render()
 	
 
 	/* Light object */
-	renderObject(manager.getLight()->getObject());
+	renderObject(m.getLight()->getObject());
 
 	/* Camera object */
-	renderObject(manager.getCamera()->getWeaponObject());
-	renderObject(manager.getCamera()->getCharacterObject());
+	renderObject(m.getCamera()->getWeaponObject());
+	renderObject(m.getCamera()->getCharacterObject());
 	/* Each object*/
-	for (auto object : manager.getAllobjects())
-	{
-		renderObject(object);
-	}
 
+	for (const auto& each : m.get_all_objects())
+	{
+		renderObject(each.second);
+	}
 
 
 
