@@ -134,6 +134,7 @@
     <ClInclude Include="shader.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data.json" />
     <None Include="shader\FragmentShader.frag" />
     <None Include="shader\VertexShader.vert" />
   </ItemGroup>

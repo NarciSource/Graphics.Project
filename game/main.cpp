@@ -1,8 +1,12 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <Windows.h>
 
 #include "main.hpp"
+#include "json.h"
+
+using Json = nlohmann::json;
 
 GLint windowSizeX = 2048, windowSizeY = 1024;
 int shadingType= typePhong;
@@ -21,7 +25,9 @@ void main(int argc, char* argv[]) {
 	/** gl setting => gl.cpp */
 	myGLInit();
 
-
+	Json save;
+	std::ifstream in("data.json");
+	in >> save;
 
 	/** make Light */
 	m.iWannaLight();
@@ -36,8 +42,16 @@ void main(int argc, char* argv[]) {
 
 
 	/** make object */
-	m.newObject("rover");
-	m.getObject("rover")->dataLoad("data\\Mars Rock Collecter.obj");
+
+	for (auto it = save.begin(); it != save.end(); it++)
+	{
+		std::string name = it.key();
+		Json each = it.value();
+
+		m.newObject(name);
+		m.getObject(name)->dataLoad(each["fileName"]);
+		m.getObject(name)->Size(each["size"]);
+	}
 
 	m.newObject("teapot");
 	m.getObject("teapot")->dataLoad2("data\\teapot.dat");
@@ -45,17 +59,8 @@ void main(int argc, char* argv[]) {
 	m.newObject("bottom");
 	m.getObject("bottom")->dataLoad2("data\\board.dat");
 
-	m.newObject("tree");
-	m.getObject("tree")->dataLoad("data\\PineTree.obj");
-	m.getObject("tree")->Size(50);
 	m.copyObject("tree", "tree", 15);
 
-	m.newObject("arrow");
-	m.getObject("arrow")->dataLoad("data\\Arrow.obj");
-
-	m.newObject("tiger");
-	m.getObject("tiger")->dataLoad("data\\tigre_sumatra_sketchfab.obj");
-	m.getObject("tiger")->Size(30);
 	m.copyObject("tiger", "tiger", 5);
 
 	/** set there's position */
