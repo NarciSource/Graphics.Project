@@ -138,6 +138,9 @@
     <None Include="shader\FragmentShader.frag" />
     <None Include="shader\VertexShader.vert" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="heightmap.bmp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

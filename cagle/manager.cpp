@@ -4,22 +4,44 @@
 /*************************************************/
 
 #include <iostream>
+#include <fstream>
 
 #include "manager.h"
 
 namespace CAGLE {
 
-	bool Management::newObject(const std::string name)
+	Object& Management::newObject(const std::string name)
 	{
 		auto ret = objects.insert({ name,nullptr });
 		if (ret.second)
 		{
 			ret.first->second = new Object();
-			return true;
 		}
 		else { // overlap			
-			return false;
+			std::cerr << "Already exist " << name << std::endl;
 		}
+		return *objects[name];
+	}
+
+	Model* Management::newModel(const std::string filename)
+	{
+		std::ifstream in(filename);
+		if (!in.good())
+		{
+			std::cerr << filename << " doesn't exist" << std::endl;
+			in.close();
+			return &Null_Model();
+		}
+		in.close();
+
+		/** model make */
+		auto ret = models.insert({ filename,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Model();
+			ret.first->second->obj_loader(filename);
+		}
+		return models[filename];
 	}
 
 	Object* Management::getObject(const std::string name)
@@ -65,8 +87,7 @@ namespace CAGLE {
 		}
 		return true;
 	}
-
-
+	
 	void Management::deleteObject(const std::string name)
 	{
 		auto it = objects.find(name);
@@ -76,6 +97,49 @@ namespace CAGLE {
 			objects.erase(it);
 		}
 	}
+
+	bool const Management::hasObjects(const std::string name)
+	{
+		return objects.find(name) != objects.end();
+	}
+
+
+	bool Management::loadModel(const std::string name, const std::string filename)
+	{
+		/** chk */
+		if (!hasObjects(name))
+		{
+			std::cerr << "Objects hasn't "<< name << std::endl;
+			return false;
+		}
+
+		std::ifstream in(filename);
+		if (!in.good())
+		{
+			std::cerr << filename << " doesn't exist" << std::endl;
+			in.close();
+			return false;
+		}
+		in.close();
+
+
+		/** model make */
+		auto ret = models.insert({ filename,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Model();
+			ret.first->second->obj_loader(filename);
+		}
+
+		/** set */
+		objects[name]->bind(models[filename]);
+
+		return true;
+	}
+
+
+
+
 
 
 	bool Management::getPlayer()
@@ -88,125 +152,6 @@ namespace CAGLE {
 		return player;
 	}
 
-	
-
-
-/*
-
-	Object* Management::iWannaInternObject(void)
-	{
-		Object* newObject;
-		newObject = new Object;
-		internObjects.push_back(std::make_pair(newObject,0));
-		return newObject;
-	}
-
-
-
-	Object* Management::iWannaObject(void)
-	{
-		Object* newObject;
-		newObject = new Object;
-		objects.push_back(newObject);
-		return newObject;
-	}
-
-
-
-	Object* Management::iWannaObject(const std::string internName, const int num)
-	{
-		auto itor = std::find_if(internObjects.begin(), internObjects.end(),
-			[&](std::pair<Object*,int> object)-> bool {
-			return (object.first->hisNameIs() == internName);
-		});
-		if (itor == internObjects.end()) {
-			std::cout << "Don't find this object" << std::endl;
-			return nullptr;
-		}
-
-		Object* internObject = itor->first;
-		int& existingInternNum = itor->second;
-
-		for (int i = 0; i < num; i++)
-		{
-			Object* newObject;
-			newObject = new Object(*internObject);
-			newObject->herNameIs(internName + std::to_string(existingInternNum++));
-
-			objects.push_back(newObject);
-		}
-		if (num == 1) {
-			return objects.back();
-		}
-		else {
-			return nullptr;
-		}
-	}
-
-	
-
-	Object* Management::getObject(const std::string name)
-	{
-		if (onlyCamera->getWeaponObject()->hisNameIs() == name)
-			return onlyCamera->getWeaponObject();
-		
-		if (onlyLight->getObject()->herNameIs() == name)
-			return onlyLight->getObject();
-
-
-		std::vector<Object*>::iterator itor;
-		itor = std::find_if(objects.begin(), objects.end(),
-			[&](Object* object)-> bool {
-			return (object->hisNameIs() == name);
-		});
-		if (itor == objects.end()) { //nofind
-			return nullptr;
-		}
-		return *itor;
-	}
-/*
-
-
-
-	Object* Management::getInternObject(const std::string name)
-	{
-		auto itor = std::find_if(internObjects.begin(), internObjects.end(),
-			[&](std::pair<Object*,int> object)-> bool {
-			return (object.first->hisNameIs() == name);
-		});
-		if (itor == internObjects.end()) throw;
-		return itor->first;
-	}
-
-
-
-
-	void Management::fireObject(const std::string name)
-	{
-		std::vector<Object*>::iterator itor;
-		itor = std::find_if(objects.begin(), objects.end(),
-			[&](Object* object)-> bool {
-			return (object->hisNameIs() == name);
-		});
-		if (itor == objects.end()) throw;
-
-		delete *itor;
-		objects.erase(itor);
-	}
-
-	void Management::fireInternObject(const std::string name)
-	{
-		auto itor = std::find_if(internObjects.begin(), internObjects.end(),
-			[&](std::pair<Object*,int> object)-> bool {
-			return (object.first->hisNameIs() == name);
-		});
-		if (itor == internObjects.end()) throw;
-
-		delete itor->first;
-		internObjects.erase(itor);
-	}
-
-	*/
 
 	bool Management::isCollision(const std::string name1, const std::string name2)
 	{
@@ -233,25 +178,32 @@ namespace CAGLE {
 		return objects;
 	}
 
-/*	std::vector<Object*> Management::getAllobjects()
-	{
-		return objects;
-	}
-*/
-
 
 	
 
-	Camera* Management::iWannaCamera(void)
+	Camera& Management::newCamera(const std::string name)
 	{
-		onlyCamera = new Camera;
-		return onlyCamera;
+		auto ret = cameras.insert({ name,nullptr });
+		if (ret.second)
+		{
+			ret.first->second = new Camera();
+		}
+		else { // overlap			
+			std::cerr << "Already exist " << name << std::endl;
+		}
+		return *cameras[name];
 	}
 
 
-	Camera* Management::getCamera(void)
+	Camera* Management::getCamera(const std::string name)
 	{
-		return onlyCamera;
+		if (cameras.find(name) != cameras.end())
+		{
+			return cameras[name];
+		}
+		else {
+			return nullptr;
+		}
 	}
 
 
@@ -277,13 +229,7 @@ namespace CAGLE {
 		{
 			each.second->refresh();
 		}
-		/*
-		for (auto op : objects)
-		{
-			op->refresh();
-		}*/
-		onlyCamera->shutter();
-		onlyLight->refresh();
+		getCamera("camera1")->shutter();
 	
 	}
 	

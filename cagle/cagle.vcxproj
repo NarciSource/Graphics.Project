@@ -117,20 +117,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="model.cpp" />
     <ClCompile Include="mvp.cpp" />
     <ClCompile Include="caglm.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="object.cpp" />
+    <ClCompile Include="terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="manager.h" />
+    <ClInclude Include="model.h" />
     <ClInclude Include="mvp.h" />
     <ClInclude Include="caglm.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="terrain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -21,10 +21,12 @@
 #include <algorithm>
 #include <utility>
 
+#include "model.h"
 #include "object.h"
 #include "camera.h"
 #include "light.h"
 #include "player.h"
+#include "terrain.h"
 
 namespace CAGLE {
 	/** forward Declaration */
@@ -44,7 +46,7 @@ namespace CAGLE {
 	public:
 		/***************** Object manage *******************************************************/
 
-		bool newObject(const std::string name);
+		Object& newObject(const std::string name);
 
 		Object* getObject(const std::string name);
 
@@ -53,7 +55,17 @@ namespace CAGLE {
 		void deleteObject(const std::string name);
 		/***************************************************************************************/
 
+		Model* newModel(const std::string filename);
 		
+		bool loadModel(const std::string name, const std::string filename);
+
+
+
+
+
+
+
+
 		/***************** Player manage *******************************************************/
 
 		Player* player;
@@ -80,11 +92,11 @@ namespace CAGLE {
 
 		/***************** Camera manage *******************************************************/
 		/** Hire */
-		Camera* iWannaCamera(void);
+		Camera& newCamera(const std::string name);
 
 
 		/** Call */
-		Camera* getCamera(void);
+		Camera* getCamera(const std::string name);
 		/***************************************************************************************/
 
 
@@ -105,8 +117,18 @@ namespace CAGLE {
 
 
 		
-		
 
+		/*** Terrain */
+		Terrain& newTerrain(const std::string filename)
+		{
+			terrain = Terrain::load_terrain(filename);
+			return *terrain;
+		}
+		
+		Terrain* getTerrain()
+		{
+			return terrain;
+		}
 
 		void refresh(void);
 
@@ -124,9 +146,17 @@ namespace CAGLE {
 
 		std::map<std::string, Object*> objects;
 
-		Camera* onlyCamera;
+		std::map<std::string, Model*> models;
+
+		std::map<std::string, Camera*> cameras;
 
 		Light* onlyLight;
+
+		Terrain* terrain;
+		
+
+
+		inline bool const hasObjects(const std::string name);
 	};
 
 }

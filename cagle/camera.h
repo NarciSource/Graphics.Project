@@ -104,13 +104,6 @@ namespace CAGLE {
 		void projectionRefresh(void);
 
 
-		/** The substance of the camera */
-		Object weapon;
-		Object character;
-
-
-
-
 	public:
 		Camera();
 
@@ -140,8 +133,6 @@ namespace CAGLE {
 
 
 		/** Get */
-		Object* getWeaponObject();
-		Object* getCharacterObject();
 		const float* loadViewMatrix() const { return viewMatrix.getElement(); }
 		const float* loadProjectionMatrix()	const { return projectionMatrix.getElement(); }
 	};

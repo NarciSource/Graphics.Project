@@ -129,12 +129,12 @@ void render()
 
 	
 	/** View and Projection Matrix */
-	glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, m.getCamera()->loadViewMatrix());
-	glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, m.getCamera()->loadProjectionMatrix());
+	glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, gManager.getCamera("camera1")->loadViewMatrix());
+	glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, gManager.getCamera("camera1")->loadProjectionMatrix());
 
 	/** Camera and Light position */
-	glUniform4f(cameraID, m.getCamera()->X(), m.getCamera()->Y(), m.getCamera()->Z(), 0);
-	glUniform4f(lightID, m.getLight()->X(), m.getLight()->Y(), m.getLight()->Z(), 0);
+	glUniform4f(cameraID, gManager.getCamera("camera1")->X(), gManager.getCamera("camera1")->Y(), gManager.getCamera("camera1")->Z(), 0);
+	glUniform4f(lightID, gManager.getLight()->X(), gManager.getLight()->Y(), gManager.getLight()->Z(), 0);
 
 	/** Shading Type, I supported phong and gouroud */
 	glUniform1i(shadingTypeID, shadingType);
@@ -143,21 +143,25 @@ void render()
 	glEnableVertexAttribArray(vertexPositionID);
 	glEnableVertexAttribArray(normalID);
 	
-
-	/* Light object */
-	renderObject(m.getLight()->getObject());
-
-	/* Camera object */
-	renderObject(m.getCamera()->getWeaponObject());
-	renderObject(m.getCamera()->getCharacterObject());
 	/* Each object*/
 
-	for (const auto& each : m.get_all_objects())
+	for (const auto& each : gManager.get_all_objects())
 	{
 		renderObject(each.second);
 	}
 
 
+	glColor3f(0.3f, 0.9f, 0.0f);
+	for (int z = 0; z < gManager.getTerrain()->Length() - 1; z++) {
+		//Makes OpenGL draw a triangle at every three consecutive vertices
+		glBegin(GL_TRIANGLE_STRIP);
+		for (int x = 0; x < gManager.getTerrain()->Width(); x++) {
+
+			glVertex3f(x/10.f, gManager.getTerrain()->Height(x, z), z/10.f);
+			glVertex3f(x/10.f, gManager.getTerrain()->Height(x, z + 1), (z+1)/10.f);
+		}
+		glEnd();
+	}
 
 
 	glDisableVertexAttribArray(vertexPositionID);

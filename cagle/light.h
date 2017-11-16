@@ -51,15 +51,8 @@ namespace CAGLE {
 		void sunset(const float velocity);
 
 
-		void refresh();
-
-
-
 	private:
 		CAGLM::Vec3<float> position;
-
-		/** The substance of the light */
-		Object source;
 
 		float pitch;
 
@@ -68,9 +61,6 @@ namespace CAGLE {
 		Light();
 
 
-
-		/** Get and Set */
-		Object* getObject();
 
 		AUTO_GETSET(CAGLM::Vec3<float>, Position, position);
 		AUTO_GETSET(float, Pitch, pitch);

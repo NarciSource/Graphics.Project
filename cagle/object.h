@@ -19,6 +19,7 @@
 
 #include "caglm.h"
 #include "mvp.h"
+#include "model.h"
 
 /** Auto GET and Set Function Maker */
 #define AUTO_GETSET2(TYPE2, FUNC_NAME2, PROP2) \
@@ -61,15 +62,7 @@ namespace CAGLE {
 
 		/** Local Coordinate
 		* Polygon Data */
-
-		int polygoncount;
-		int polygoncolor;
-		float* vertexdata;
-		float* normaldata;
-		float* uvdata;
-
-
-
+		Model* model;
 
 
 		/** World Coordinate */
@@ -88,15 +81,12 @@ namespace CAGLE {
 		void refresh();
 
 
-
-		/** Parsing function*/
-		void dataLoad2(const std::string filename);
-		void dataLoad(const std::string filename);
-
 		void positionRotation(float turnRadius, float velocity, float x, float y, float z);
 
 
 
+		/** Set */
+		void bind(Model* md) { model = md; }
 
 
 		/** Get and Set */
@@ -108,14 +98,15 @@ namespace CAGLE {
 		AUTO_GETSET2(float, Z, position);
 		AUTO_GETSET(float, Size, size);
 		AUTO_GETSET(float, Yaw, yaw);
-		AUTO_GETSET(int, Color, polygoncolor);
 
 
 		/** Get */
-		const float* loadNormal() { return normaldata; }
-		const float* loadVertexPosition() { return vertexdata; }
-		const int	 loadPolygonCount() { return polygoncount; }
+		const float* loadNormal() { return model->load_normal(); }
+		const float* loadVertexPosition() { return model->load_vertex(); }
+		const int	 loadPolygonCount() { return model->load_polygon_num(); }
 		const float* loadModelMatrix() { return modelMatrix.getElement(); }
+
+		const int	 Color() { return model->load_polygon_color(); }
 	};
 
 

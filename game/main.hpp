@@ -10,6 +10,9 @@
 
 #include "shader.hpp"
 #include "manager.h"
+#include "object.h"
+#include "model.h"
+
 
 #define typeGouraud 0x01
 #define typePhong 0x02
@@ -19,7 +22,7 @@
 
 
 extern GLint windowSizeX, windowSizeY;
-extern CAGLE::Management m;
+extern CAGLE::Management gManager;
 
 extern int shadingType;
 
@@ -35,6 +38,6 @@ void mouseMoveHandler(const int x, const int y);
 void mouseClickHandler(const int button, const int state, const int x, const int y);
 void specialKeyboardHandler(const int key, const int x, const int y);
 void idle(int value);
-void setInitPosition();
+void componentInit();
 void printF(const int progress);
 void changeSize(const int width, const int height);

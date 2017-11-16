@@ -16,9 +16,6 @@ namespace CAGLE {
 		aspect(2.0), neear(0.1f), faar(100.f),
 		projectionType(PROJECTION_PERSPECTIVE), flushMap(false)
 	{
-		weapon.hisNameIs("bow");
-		character.herNameIs("catwoman");
-
 		shutter();
 
 		projectionMatrix.frustum(left, right, bottom, top, neear, faar);
@@ -179,29 +176,7 @@ namespace CAGLE {
 
 		viewMatrix.scalef(size, size, size);
 
-		/** Adjust the value of the weapon
-		* so that the camera's body(chacter) can move
-		* along camera's center point.*/
-		weapon.Position(position + CAGLM::Vec3<float>::Normalize(position - lookAt) * 5);
-		weapon.Yaw(yaw);
-		weapon.refresh();
-
-		character.Position(position + CAGLM::Vec3<float>::Normalize(position - lookAt) * 10 + CAGLM::Vec3<float>(0, -30, 0));
-		character.Yaw(yaw);
-		character.refresh();
-
 		/** Proj and View matrix refresh */
 		projectionRefresh();
-	}
-
-
-	Object* Camera::getWeaponObject()
-	{
-		return &weapon;
-	}
-
-	Object* Camera::getCharacterObject()
-	{
-		return &character;
 	}
 };
